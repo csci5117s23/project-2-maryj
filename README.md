@@ -45,19 +45,19 @@ Which (if any) progressive web app feature(s) does your app support?
 
 <img src="/low-fidelity-mockups/Home.png" width=25%>
 
-**Description:** Home page where user can see a curated list of restaraunts in their area.
+**Description:** Home page where user can see a curated list of restaurants in their area.
 
 ### Likes Page
 
 <img src="/low-fidelity-mockups/Likes.png" width=20%>
 
-**Description:** Page where user can see their liked restaraunts.
+**Description:** Page where user can see their liked restaurants.
 
 ### Favorites Page
 
 <img src="/low-fidelity-mockups/Favorites.png" width=20%>
 
-**Description:** Page where user can see their favorited restaraunts.
+**Description:** Page where user can see their favorited restaurants.
 
 ### Location page
 
@@ -68,7 +68,7 @@ Which (if any) progressive web app feature(s) does your app support?
   <img src="/low-fidelity-mockups/LocationReflection.png" width=20% />
 </p>
 
-**Description:** Page for a restaraunt where user has their notes and rating of the restaraunt.
+**Description:** Page for a restaurant where user has their notes and rating of the restaurant. The user can like or dislike a restaurant by clicking on the happy or sad face. The user is able to see the details of each menu item by clicking on the pen icon next to the item, a popo is showed as displayed in the fourth image above. The user is also able to like a menu item. Finally the user can add a reflection and edit it as shown in images 2 and 3.
 
 
 ## Testing Notes
