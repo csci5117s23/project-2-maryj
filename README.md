@@ -68,7 +68,7 @@ Which (if any) progressive web app feature(s) does your app support?
   <img src="/low-fidelity-mockups/LocationMenuItemDetail.png" width=20% />
 </p>
 
-**Description:** Page for a restaurant where user has their notes and rating of the restaurant. The user can like or dislike a restaurant by clicking on the happy or sad face. The user is able to see the details of each menu item by clicking on the pen icon next to the item, a popo is showed as displayed in the fourth image above. The user is also able to like a menu item. Finally the user can add a reflection and edit it as shown in images 2 and 3.
+**Description:** Page for a restaurant where user has their notes and rating of the restaurant. The user can like or dislike a restaurant by clicking on the happy or sad face. The user is able to see the details of each menu item by clicking on the pen icon next to the item, a pop-up is showed as displayed in the fourth image above. The user is also able to like a menu item. Finally the user can add a reflection and edit it as shown in images 2 and 3.
 
 
 ## Testing Notes
