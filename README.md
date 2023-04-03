@@ -39,13 +39,13 @@ Which (if any) progressive web app feature(s) does your app support?
 
 <img src="/low-fidelity-mockups/Splash.png" width=25%>
 
-**Description:** Landing page when user first enters the url. User can click "Get Started" to access the home page.
+**Description:** Landing page when user first enters the url. User can click "Login" to access the home page.
 
 ### Home Page
 
 <img src="/low-fidelity-mockups/Home.png" width=25%>
 
-**Description:** Home page where user can see a curated list of restaurants in their area.
+**Description:** Home page where user can see a curated list of recommended restaurants in their area.
 
 ### Likes Page
 
