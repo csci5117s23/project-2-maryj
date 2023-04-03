@@ -37,21 +37,38 @@ Which (if any) progressive web app feature(s) does your app support?
 
 ### Splash Page
 
-<img src="/low-fidelity-mockups/Splash.png" height=400px width=600px>
+<img src="/low-fidelity-mockups/Splash.png" width=25%>
 
 **Description:** Landing page when user first enters the url. User can click "Get Started" to access the home page.
 
 ### Home Page
 
-<img src="/low-fidelity-mockups/Home.png" height=400px width=600px>
+<img src="/low-fidelity-mockups/Home.png" width=25%>
 
 **Description:** Home page where user can see a curated list of restaraunts in their area.
 
 ### Likes Page
 
-<img src="/low-fidelity-mockups/Likes.png" height=400px width=600px>
+<img src="/low-fidelity-mockups/Likes.png" width=20%>
 
 **Description:** Page where user can see their liked restaraunts.
+
+### Favorites Page
+
+<img src="/low-fidelity-mockups/Favorites.png" width=20%>
+
+**Description:** Page where user can see their favorited restaraunts.
+
+### Location page
+
+<p float="left">
+  <img src="/low-fidelity-mockups/Location.png" width=20% />
+  <img src="/low-fidelity-mockups/LocationEditReflection.png" width=20% /> 
+  <img src="/low-fidelity-mockups/LocationMenuItemDetail.png" width=20% />
+  <img src="/low-fidelity-mockups/LocationReflection.png" width=20% />
+</p>
+
+**Description:** Page for a restaraunt where user has their notes and rating of the restaraunt.
 
 
 ## Testing Notes
