@@ -53,11 +53,11 @@ Which (if any) progressive web app feature(s) does your app support?
 
 **Description:** Page where user can see their liked restaurants.
 
-### Favorites Page
+### Starred Page
 
-<img src="/low-fidelity-mockups/Favorites.png" width=20%>
+<img src="/low-fidelity-mockups/Starred.png" width=20%>
 
-**Description:** Page where user can see their favorited restaurants.
+**Description:** Page where user can see their starred restaurants.
 
 ### Location page
 
