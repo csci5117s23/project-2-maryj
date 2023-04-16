@@ -1,3 +1,6 @@
+/* FIXME: switch this to self-hosted later */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -38,6 +41,12 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+  --salmon: #EA7153;
+  --mist: #C7B9B6;
+  --lemon: #E4DE84;
+  --cream: #EBECC2;
+  --pale: #E9E9E9;
+  --obsidian: #2D3235;
 }
 
 @media (prefers-color-scheme: dark) {

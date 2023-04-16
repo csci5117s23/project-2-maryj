@@ -1,8 +1,12 @@
 .header {
   display: flex;
-  background-color: green;
-  height: 4em;
-  padding: 0.5em;
+  background-color: white;
+  height: 5em;
+  padding: 1em;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 0.8em;
+  color: var(--mist);
 }
 
 .links {
@@ -10,8 +14,7 @@
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  padding: 0.5em 2.5em 0.5em 0.5em;
-  background-color: orange;
+  margin: 0 2.5em 0 1em;
 }
 
 .link {
@@ -19,15 +22,20 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  transition: color 0.25s ease;
+}
+
+.link:hover {
+  color: var(--obsidian);
 }
 
 .logo {
   width: 4em;
-  background-color: red;
+  border-radius: 16px;
+  background-color: var(--pale);
 }
 
 .icon {
-  width: 1em;
-  height: 1em;
-  background-color: purple;
+  margin-top: 0.1em;
+  font-size: 1.75em;
 }
