@@ -14,7 +14,7 @@
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  margin: 0 0.5em 0 1em;
+  margin: 0 1em;
 }
 
 .link {
@@ -38,6 +38,7 @@
   width: 8em;
   border-radius: 16px;
   background-color: var(--pale);
+  margin-right: 1em;
 }
 
 .icon {
