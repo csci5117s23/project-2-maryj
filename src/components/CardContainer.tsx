@@ -56,6 +56,7 @@ export default function CardContainer({ filter }: CardContainerProps) {
     const [cards, setCards]: [Card[], Function] = useState<Card[]>([]);
 
     useEffect(() => {
+        
         // Fetch for cards and set them in setCards() function
         async function getCards() {
             // const response = await fetch()

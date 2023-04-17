@@ -1,7 +1,8 @@
 
 import Image from 'next/image';
-import { MdStarBorder } from "react-icons/md";
+import { MdStar, MdStarBorder } from "react-icons/md";
 import styles from '@/styles/Card.module.css';
+import { useState } from 'react';
 
 interface CardProps {
     id: number;
@@ -12,12 +13,34 @@ interface CardProps {
 }
 
 export default function Card({ id, title, category, image, isStarred }: CardProps) {
+    const [starState, setStarState]: [boolean, Function] = useState(isStarred);
+
     return (
         <div className={styles.card}>
             <div className={styles['image-container']}>
-                <Image src={image} alt={`image of ${title}`} fill />
-                <MdStarBorder size="20px" className={styles['image-star']} />
+                <Image
+                    className={styles.image}
+                    src={image} 
+                    alt={`image of ${title}`} 
+                    fill 
+                />
+                {starState ? 
+                    <MdStar 
+                        className={styles['image-star']}
+                        color="yellow" 
+                        size="25px"
+                        onClick={e => setStarState(!starState)}
+                    /> : 
+                    <MdStarBorder 
+                        className={styles['image-star']} 
+                        color="yellow" 
+                        size="25px" 
+                        onClick={e => setStarState(!starState)} 
+                    />
+                }
             </div>
+            <h1 className={styles.title}>{title}</h1>
+            <p className={styles.category}>{category}</p>
         </div>
     );
 }

@@ -8,16 +8,9 @@ import Splash from './splash';
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
-
-  if (!userId) {
-    return <Splash />
-  }
-
   return (
     <>
-      <Header/>
-      <CardContainer filter="yes"/>
+      Splash
     </>
-  )
+  );
 }
