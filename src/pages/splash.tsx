@@ -19,7 +19,7 @@ export default function Splash() {
         if (isLoaded && userId) {
           router.push('/home');
         }
-    }, [isLoaded, userId]);
+    }, [isLoaded, userId, router]);
     
 
     const goLogin = () => {
