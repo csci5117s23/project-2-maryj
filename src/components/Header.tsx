@@ -1,4 +1,5 @@
 import { MdHomeFilled, MdFavorite, MdStar, MdLogout } from "react-icons/md";
+import { SignOutButton } from "@clerk/nextjs";
 import Link from 'next/link';
 import styles from '@/styles/Header.module.css'
 

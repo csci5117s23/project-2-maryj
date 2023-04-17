@@ -14,7 +14,7 @@
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  margin: 0 2.5em 0 1em;
+  margin: 0 0.5em 0 1em;
 }
 
 .link {
@@ -23,14 +23,19 @@
   align-items: center;
   text-align: center;
   transition: color 0.25s ease;
+  margin-right: 2em;
 }
 
 .link:hover {
   color: var(--obsidian);
 }
 
+.link:active {
+  color: var(--salmon);
+}
+
 .logo {
-  width: 4em;
+  width: 8em;
   border-radius: 16px;
   background-color: var(--pale);
 }
@@ -38,4 +43,13 @@
 .icon {
   margin-top: 0.1em;
   font-size: 1.75em;
+}
+
+@media (min-width: 750px) {
+  .links {
+    justify-content: start;
+  }
+  .link {
+    margin-right: 6em;
+  }
 }
