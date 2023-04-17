@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  background-color: white;
+  height: 5em;
+  padding: 1em;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 0.8em;
+  color: var(--mist);
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  margin: 0 0.5em 0 1em;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: color 0.25s ease;
+  margin-right: 2em;
+}
+
+.link:hover {
+  color: var(--obsidian);
+}
+
+.link:active {
+  color: var(--salmon);
+}
+
+.logo {
+  width: 8em;
+  border-radius: 16px;
+  background-color: var(--pale);
+}
+
+.icon {
+  margin-top: 0.1em;
+  font-size: 1.75em;
+}
+
+@media (min-width: 750px) {
+  .links {
+    justify-content: start;
+  }
+  .link {
+    margin-right: 6em;
+  }
+}
