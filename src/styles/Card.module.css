@@ -1,0 +1,19 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 50px;
+    gap: 0.5rem;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+    height: 300px;
+}
+
+.image-star {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
