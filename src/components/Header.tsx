@@ -21,10 +21,10 @@ export default function Header() {
     <div className={styles.header}>
       <div className={styles.links}>
         {links.map((link, index) => (
-          <Link key={index} href={link.href} className={styles.link}>
+          <div key={index} onClick={e => { router.replace({query: {...router.query, filter: link.text}}) }} className={styles.link}>
             {link.text}{' '}
             <div className={styles.icon}>{link.icon}</div>
-          </Link>
+          </div>
         ))}
         <Link href="/" onClick={e => { signOut(); router.push("/") }} className={styles.link}>
           Logout
