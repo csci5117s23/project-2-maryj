@@ -24,6 +24,7 @@
   text-align: center;
   transition: color 0.25s ease;
   margin-right: 2em;
+  cursor: pointer;
 }
 
 .link:hover {
