@@ -21,11 +21,6 @@ const restaurantSchema = object({
     })).required().default([]),
 });
 
-const userSchema = object({
-    userId: string().required(),
-    placeIds: array().of(string()).required().default([]),
-});
-
 // Sanity check
 app.get('/hello', async (req, res) => {
     console.log("I run locally, cool!");
@@ -33,7 +28,7 @@ app.get('/hello', async (req, res) => {
 });
 
 // Use Crudlify to create a REST API for any collection
-crudlify(app)
+crudlify(app, {restaurant: restaurantSchema});
 
 // bind to serverless runtime
 export default app.init();
