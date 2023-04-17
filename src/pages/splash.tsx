@@ -17,7 +17,7 @@ export default function Splash() {
 
     useEffect(() => {
         if (isLoaded && userId) {
-          router.push('/home');
+          router.push('/trac');
         }
     }, [isLoaded, userId, router]);
     
