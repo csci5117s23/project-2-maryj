@@ -6,7 +6,7 @@ CSCI 5117, Spring 2022, [assignment description](https://canvas.umn.edu/courses/
 
 * Team Name: MaryJ
 * App Name: aRestoTrac
-* App Link: <https://arestotrac.netlify.app/trac>
+* App Link: <https://arestotrac.netlify.app>
 
 ### Students
 
