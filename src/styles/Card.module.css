@@ -3,6 +3,12 @@
     flex-direction: column;
     flex: 0 0 50px;
     gap: 0.5rem;
+    filter: brightness(1);
+    cursor: pointer;
+}
+
+.card:hover {
+    filter: brightness(0.75);
 }
 
 .image-container {
@@ -12,8 +18,21 @@
     height: 300px;
 }
 
+.image {
+    border-radius: 1rem;
+}
+
 .image-star {
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+.title {
+    color: var(--salmon);
+}
+
+.category {
+    font-family: 'Inconsolata', sans-serif;
+    line-height: 150%;
 }
