@@ -9,6 +9,8 @@
     cursor: pointer;
     border-radius: 20%;
     margin-top: 2.5%;
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 .login{    
@@ -17,6 +19,7 @@
 
 .cancel{
     background-color: #c51505;
+
 }
 
 

@@ -1,6 +1,6 @@
 import style from '@/styles/splash.module.css';
 import { SignIn } from "@clerk/clerk-react";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
 
@@ -15,13 +15,12 @@ export default function Splash() {
     const router = useRouter();
 
 
-    /** 
-     * This would route to the main page if the user is logged in 
-     * 
-    */
-    // if (isLoaded && userId) {
-    //     router.push('/home');
-    // }
+    useEffect(() => {
+        if (isLoaded && userId) {
+          router.push('/home');
+        }
+    }, [isLoaded, userId]);
+    
 
     const goLogin = () => {
         setShowSignin(true);
