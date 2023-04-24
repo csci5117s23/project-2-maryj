@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+.accordion-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.accordion-title > h3 {
+    font-family: 'Quicksand';
+    font-size: 1.15rem;
+    padding: 0.25rem;
+}
+
+.accordion-items {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.25rem;
+    gap: 0.5rem;
+    height: 0;
+    overflow: hidden;
+    transition: height ease 0.25s;
+}
+
+.icons {
+    cursor: pointer;
+}
