@@ -50,12 +50,14 @@ export default function Menu({ id }: MenuProps) {
 
     useEffect(() => {
         async function getMenuItems() {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT + `/resto/${id}`);
+            // Store this in menuItems
+            const data = response.json();
             // Fetch for menuItems
             setMenuItems(dummyMenuItems);
         }
-
         getMenuItems();
-    }, []);
+    }, [id]);
 
     return (
         <div className={styles.container}>
