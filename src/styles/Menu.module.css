@@ -12,6 +12,7 @@
 .accordion-title {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .accordion-title > h3 {
