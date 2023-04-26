@@ -7,6 +7,7 @@
 .container > h3 {
     font-family: 'Inconsolata';
     font-size: 1rem;
+    font-weight: 400;
 }
 
 .options {
@@ -15,6 +16,23 @@
     gap: 0.25rem;
 }
 
-.icon {
+.icon, .star {
     cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.icon {
+    color: var(--mist);
+}
+
+.icon:hover {
+    color: var(--salmon);
+}
+
+.starFilled, .star:hover {
+    color: var(--curd);
+}
+
+.star {
+    color: var(--mist);
 }
