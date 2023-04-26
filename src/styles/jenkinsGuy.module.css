@@ -1,0 +1,22 @@
+.funFactModal{
+    max-height: fit-content;
+    margin: 10%;
+    color: #FAFCFA;
+    border-radius: 21px;
+    background-color: #EA7153;
+    text-align: center;
+    font-weight: 900;
+    position: relative;
+}
+
+.closeFunFactModal{
+    width: 7%;
+    min-width: fit-content;
+    margin-top: 3%;
+    margin-left: 90%;
+    background-color: aqua;
+}
+
+.funFactText{
+    padding: 5%;
+}
