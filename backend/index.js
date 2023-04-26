@@ -5,7 +5,7 @@
 */
 import {app, Datastore} from 'codehooks-js'
 import {crudlify} from 'codehooks-crudlify'
-import { object, string, array, number } from 'yup';
+import { object, string, array, number, boolean } from 'yup'
 import jwtDecode from 'jwt-decode'
 
 
@@ -18,7 +18,7 @@ const restaurantSchema = object({
 
     itemsTried: array().of(object({
         name: string().required(),
-        liked: string().required().default("none"),
+        liked: boolean().required().default(false),
         reflection: string().required().default(""),
     })).required().default([]),
 });
