@@ -82,7 +82,6 @@ const ReactQuill = dynamic(
       return (
         <RQ
           ref={(ref) => {
-            forwardedRef.current = ref;
             quillRef.current = ref;
           }}
           modules={modules}
