@@ -1,0 +1,36 @@
+.image-container, .resto-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.image-container {
+  height: 300px;
+}
+
+.resto-container {
+  height: 200px;
+}
+
+.image-resto {
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  border-radius: 1rem;
+  background-color: var(--pale);
+  color: var(--mist);
+}
+
+.image {
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.image-star {
+  position: absolute;
+  color: var(--curd);
+  top: 10px;
+  right: 10px;
+}

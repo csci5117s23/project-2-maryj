@@ -1,4 +1,4 @@
-import { MdEditNote, MdStar, MdStarBorder } from 'react-icons/md';
+import { MdEdit, MdStar, MdStarBorder } from 'react-icons/md';
 import styles from '@/styles/MenuItem.module.css';
 
 interface MenuItemProps {
@@ -14,15 +14,15 @@ export default function MenuItem({ title, liked, reflection }: MenuItemProps) {
             <div className={styles.options}>
                 {liked ?
                     <MdStar 
-                        color="yellow" 
+                        className={styles.star}
                         size="25px"
                     /> : 
                     <MdStarBorder 
-                        color="yellow" 
+                        className={styles.star} 
                         size="25px" 
                     />
                 }
-                <MdEditNote 
+                <MdEdit 
                     className={styles.icon}
                     size="25px" 
                 />
