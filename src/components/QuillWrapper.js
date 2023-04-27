@@ -34,7 +34,7 @@ const ReactQuill = dynamic(
             }
 
             const formData = new FormData();
-            formData.append("file", files[0]);
+            formData.append("image", files[0]);
 
             fetch("https://your-api-endpoint.com/upload-image", {
               method: "POST",
@@ -82,7 +82,6 @@ const ReactQuill = dynamic(
       return (
         <RQ
           ref={(ref) => {
-            forwardedRef.current = ref;
             quillRef.current = ref;
           }}
           modules={modules}
