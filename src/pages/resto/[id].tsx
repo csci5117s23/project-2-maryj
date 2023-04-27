@@ -17,7 +17,6 @@ interface RestoProps {
 interface RestaurantInfo {
     image: string,
     title: string,
-
 }
 
 export default function Resto() {
@@ -44,7 +43,7 @@ export default function Resto() {
                     "Authorization": "Bearer " + token
                 }
             });
-            
+
             // Bad Auth
             // if (!response.ok) {
             //     router.push("/404");
@@ -56,14 +55,7 @@ export default function Resto() {
 
         verify();
     }, [isLoaded, router, getToken, userId]);
-    
-export default function Resto({ id }: RestoProps) {
-    const { isLoaded, userId, sessionId, getToken } = useAuth();
 
-    // Verify ID is valid in useEffect
-    if (!userId) {
-        return <SignInPage />;
-    }
     // TODO: FETCH RELEVANT DATA FROM ID, USERID HERE
     //       delete this once this is done
     const dummyRestaurant: RestaurantInfo = {
@@ -75,15 +67,15 @@ export default function Resto({ id }: RestoProps) {
         <>
             <Header />
             <div className={styles.container}>
-                    <div className={styles.title}>{dummyRestaurant.title}</div>
-                    <div className={styles.image}>
-                        <ImageCustom
-                            url={dummyRestaurant.image}
-                            isStarred={true}
-                            title={dummyRestaurant.image}
-                            isResto={true}
-                        />
-                    </div>
+                <div className={styles.title}>{dummyRestaurant.title}</div>
+                <div className={styles.image}>
+                    <ImageCustom
+                        url={dummyRestaurant.image}
+                        isStarred={true}
+                        title={dummyRestaurant.image}
+                        isResto={true}
+                    />
+                </div>
                 <Input
                     placeholder={"Add item here..."}
                     id={"add-item"}
