@@ -8,89 +8,100 @@ interface MenuProps {
 }
 
 interface MenuItems {
-    id: number;
     title: string;
-    isFavorite: boolean;
+    liked: boolean;
+    reflection: string;
 }
 
 const dummyMenuItems: MenuItems[] = [
     {
-        id: 1,
         title: 'Spaghetti Carbonara',
-        isFavorite: true
+        liked: true,
+        reflection: ""
     },
     {
-        id: 2,
         title: 'Chicken Alfredo',
-        isFavorite: false
+        liked: false,
+        reflection: ""
     },
     {
-        id: 3,
         title: 'Margherita Pizza',
-        isFavorite: true
+        liked: true,
+        reflection: ""
     },
     {
-        id: 4,
         title: 'Caesar Salad',
-        isFavorite: false
+        liked: false,
+        reflection: ""
     },
     {
-        id: 5,
         title: 'Grilled Salmon',
-        isFavorite: true
+        liked: true,
+        reflection: ""
     }
 ];
 
 export default function Menu({ id }: MenuProps) {
     const [menuItems, setMenuItems]: [MenuItems[], Function] = useState<MenuItems[]>([]);
     const [viewMenuItems, setViewMenuItems]: [boolean, Function] = useState<boolean>(false);
-    const [viewFavoriteItems, setViewFavoriteItems]: [boolean, Function] = useState<boolean>(false);
-    const favorites = useRef() as MutableRefObject<HTMLDivElement>;
+    const [viewLikedItems, setViewLikedItems]: [boolean, Function] = useState<boolean>(false);
+    const liked = useRef() as MutableRefObject<HTMLDivElement>;
     const menu = useRef() as MutableRefObject<HTMLDivElement>;
 
     useEffect(() => {
-        async function getMenuItems() {
-            // Fetch for menuItems
-            setMenuItems(dummyMenuItems);
-        }
+        if (!id) return;
 
+        async function getMenuItems() {
+            setMenuItems(dummyMenuItems);
+
+            const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT + `/restaurant/${id}`);
+            // Store this in menuItems
+            const data: any = await response.json();
+
+            // Fetch for menuItems
+            // setMenuItems(data.itemsTried);
+        }
         getMenuItems();
-    }, []);
+    }, [id]);
+
+    if (id === undefined) {
+        return null;
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.accordion}>
                 <div className={styles['accordion-title']}>
                     <h3>Favorite Items</h3>
-                    {viewFavoriteItems ? 
+                    {viewLikedItems ? 
                         <MdKeyboardArrowUp
                             className={styles.icons}
                             size="25px"
-                            onClick={e => setViewFavoriteItems(!viewFavoriteItems)}
+                            onClick={e => setViewLikedItems(!viewLikedItems)}
                         /> : 
                         <MdKeyboardArrowDown 
                             className={styles.icons}
                             size="25px" 
-                            onClick={e => setViewFavoriteItems(!viewFavoriteItems)} 
+                            onClick={e => setViewLikedItems(!viewLikedItems)} 
                         />
                     }
                 </div>
                 <div 
-                    ref={favorites}
+                    ref={liked}
                     className={styles['accordion-items']}
                     style={
-                        viewFavoriteItems
-                        ? { height: favorites.current.scrollHeight }
+                        viewLikedItems
+                        ? { height: liked.current.scrollHeight }
                         : { height: "0px" }
                     }
                 >
-                    {menuItems.filter(item => item.isFavorite).map(item => {
+                    {menuItems.filter(item => item.liked).map(item => {
                         return (
                             <MenuItem 
-                                key={item.id}
-                                id={item.id}
+                                key={item.title}
                                 title={item.title}
-                                isFavorite={item.isFavorite}
+                                liked={item.liked}
+                                reflection={item.reflection}
                             />
                         );
                     })}
@@ -121,13 +132,13 @@ export default function Menu({ id }: MenuProps) {
                         : { height: "0px" }
                     }
                 >
-                    {menuItems.filter(item => !item.isFavorite).map(item => {
+                    {menuItems.filter(item => !item.liked).map(item => {
                         return (
                             <MenuItem 
-                                key={item.id}
-                                id={item.id}
+                                key={item.title}
                                 title={item.title}
-                                isFavorite={item.isFavorite}
+                                liked={item.liked}
+                                reflection={item.reflection}
                             />
                         );
                     })}
