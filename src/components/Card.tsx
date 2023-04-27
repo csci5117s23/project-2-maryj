@@ -21,6 +21,7 @@ export default function Card({ id, title, category, image, isStarred }: CardProp
                     url={image}
                     isStarred={isStarred}
                     title={title}
+                    isResto={false}                
                 />
             </div>
             <h1 className={styles.title}>{title}</h1>
