@@ -7,13 +7,13 @@ interface MenuProps {
     restaurant: any;
 }
 
-interface MenuItems {
+interface MenuItem {
     title: string;
     liked: boolean;
     reflection: string;
 }
 
-const dummyMenuItems: MenuItems[] = [
+const dummyMenuItems: MenuItem[] = [
     {
         title: 'Spaghetti Carbonara',
         liked: true,
@@ -42,7 +42,6 @@ const dummyMenuItems: MenuItems[] = [
 ];
 
 export default function Menu({ restaurant }: MenuProps) {
-    const [menuItems, setMenuItems]: [MenuItems[], Function] = useState<MenuItems[]>(restaurant.itemsTried);
     const [viewMenuItems, setViewMenuItems]: [boolean, Function] = useState<boolean>(false);
     const [viewLikedItems, setViewLikedItems]: [boolean, Function] = useState<boolean>(false);
     const liked = useRef() as MutableRefObject<HTMLDivElement>;
@@ -51,6 +50,8 @@ export default function Menu({ restaurant }: MenuProps) {
     if (restaurant === undefined) {
         return null;
     }
+
+    const menuItems: MenuItem[] = restaurant.itemsTried;
 
     return (
         <div className={styles.container}>
