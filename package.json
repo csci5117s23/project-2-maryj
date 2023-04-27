@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,17 +13,19 @@
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
+    "codehooks-crudlify": "^1.0.8",
+    "codehooks-js": "^1.0.11",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "jwt-decode": "^3.1.2",
     "next": "13.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-html5-camera-photo": "^1.5.11",
     "react-icons": "^4.8.0",
     "react-quill": "^2.0.0",
-    "typescript": "5.0.4"
-  },
-  "devDependencies": {
     "@types/react-html5-camera-photo": "^1.5.1"
+    "typescript": "5.0.4",
+    "yup": "^1.1.1"
   }
 }

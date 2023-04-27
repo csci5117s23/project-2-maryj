@@ -3,12 +3,15 @@
 import React, { useEffect, useMemo, useRef, forwardRef } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
+import { useAuth } from '@clerk/nextjs';
+
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
 
     const WrappedReactQuill = forwardRef((props, forwardedRef) => {
       const quillRef = useRef(null);
+      const { isLoaded, userId, sessionId, getToken } = useAuth();
 
       // Custom image upload handler
       function imgHandler() {
@@ -33,26 +36,40 @@ const ReactQuill = dynamic(
               return;
             }
 
-            const formData = new FormData();
-            formData.append("file", files[0]);
+            const reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = async () => {
+              const base64Image = reader.result.split(",")[1];
 
-            fetch("https://your-api-endpoint.com/upload-image", {
-              method: "POST",
-              body: formData,
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                const url = data.url; // Assuming the API returns the URL of the uploaded image
-                quill.insertEmbed(range.index, "image", url, "user");
+              console.log("Trying upload");
+              const token = await getToken({ template: "codehooks" });
+              fetch(" https://backend-qsum.api.codehooks.io/dev/upload-image", {
+                method: "POST",
+                headers: {
+                  "Authorization": "Bearer " + token,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ image: base64Image }),
               })
-              .catch((error) => {
-                console.error(error);
-              });
+                .then((response) => {
+                  console.log("response", response);
+                  return response.json();
+                })
+                .then((data) => {
+                  const url = data.url; // Assuming the API returns the URL of the uploaded image
+                  console.log("url", url);
+                  quill.insertEmbed(range.index, "image", url, "user");
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            };
           });
           quill.root.appendChild(fileInput);
         }
         fileInput.click();
       }
+
 
       const modules = useMemo(
         () => ({

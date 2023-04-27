@@ -23,6 +23,11 @@ const restaurantSchema = object({
     })).required().default([]),
 });
 
+const imageSchema = object({
+    id: string().required(),
+    image: string().required(),
+});
+
 
 const userAuth = async (req, res, next) => {
     try {
@@ -63,6 +68,37 @@ app.post('/restaurants/:userId', async (req, res) => {
     res.json(restaurant);
 });
 
+// Write me a codehooks endpoint that takes a image id and returns the image
+app.get('/get-image/:id', async (req, res) => {
+    const conn = await Datastore.open();
+    const cursor = conn.getMany('image', {filter: {id: req.params.id}})
+    await cursor.forEach((image) => {
+        const imageData = Buffer.from(image.image, 'base64');
+        console.log("length", imageData.length);
+        // res.writeHead(200, {
+        //     'Content-Length': imageData.length
+        // });
+        console.log("length post head", imageData.length);
+        console.log(res);
+        // console.log(imageData.);
+
+        res.write(imageData.data);
+    });
+    res.end();
+});
+  
+// Write me a codehooks endpoint that takes in a image and uploads it to the datastore
+app.post('/upload-image', async (req, res) => {
+    const conn = await Datastore.open();
+    // Assign the image a random id
+    req.body.id = Math.random().toString(36).substring(7);
+    // upload the image to the datastore with the id
+    // Convert the image to b64 before adding it to the database
+    console.log(req.body);
+    const image = await conn.insertOne('image', req.body);
+    res.json({url: `${req.headers.host}/dev/get-image/${image.id}`});
+});
+
 // Sanity check
 app.get('/hello', async (req, res) => {
     console.log("I run locally, cool!");
@@ -70,7 +106,7 @@ app.get('/hello', async (req, res) => {
 });
 
 // Use Crudlify to create a REST API for any collection
-crudlify(app, {restaurant: restaurantSchema});
+crudlify(app, {restaurant: restaurantSchema, image: imageSchema});
 
 // bind to serverless runtime
 export default app.init();
