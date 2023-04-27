@@ -10,20 +10,12 @@
   color: var(--salmon);
   font-size: 36px;
   font-weight: bold;
+  margin: 0 0 0.25em 0;
 }
 
 .image {
   /* FIXME: refactor image into its own component */
-  width: 300px;
-  height: 160px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  object-fit: cover;
-  border-radius: 1rem;
-  background-color: var(--pale);
   margin: 0.5em 0;
-  color: var(--mist);
 }
 
 .input {

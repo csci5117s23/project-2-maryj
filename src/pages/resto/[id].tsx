@@ -3,15 +3,24 @@ import Header from '@/components/Header';
 import { useAuth } from '@clerk/nextjs';
 import Menu from '@/components/Menu';
 import SignInPage from '../signin';
-import Image from 'next/image';
-import { useEffect } from 'react';
+import ImageCustom from '@/components/Image';
+import Input from '@/components/Input';
 
 
 interface RestoProps {
     id: number;
 }
 
-export default function Resto({ id }: RestoProps ) {
+// TODO: delete this once backend exists and fetch data
+interface RestaurantInfo {
+    image: string,
+    title: string,
+
+}
+
+
+
+export default function Resto({ id }: RestoProps) {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
 
     // Verify ID is valid in useEffect
@@ -19,19 +28,32 @@ export default function Resto({ id }: RestoProps ) {
         return <SignInPage />;
     }
 
+    // TODO: FETCH RELEVANT DATA FROM ID, USERID HERE
+    //       delete this once this is done
+    const dummyRestaurant: RestaurantInfo = {
+        title: "Raising Cane's",
+        image: "https://i.imgur.com/tB3WB6m.jpeg",
+    }
+
     return (
         <>
-            <Header/>
+            <Header />
             <div className={styles.container}>
-                <div className={styles.title}>Title Here</div>
-                {/* FIXME: refactor */}
-                <Image
-                    className={styles.image}
-                    src={""} 
-                    alt={"restaurant image here"} 
+                    <div className={styles.title}>{dummyRestaurant.title}</div>
+                    <div className={styles.image}>
+                        <ImageCustom
+                            url={dummyRestaurant.image}
+                            isStarred={true}
+                            title={dummyRestaurant.image}
+                            isResto={true}
+                        />
+                    </div>
+                <Input
+                    placeholder={"Add item here..."}
+                    id={"add-item"}
+                    name={"add-item"}
                 />
-                <div className={styles.input}>Input Here</div>
-                <Menu id={id}/>
+                <Menu id={id} />
             </div>
         </>
     );
@@ -39,5 +61,5 @@ export default function Resto({ id }: RestoProps ) {
 
 export async function getServerSideProps(context: any) {
     const { id } = context.params;
-    return { props: { id  } };
+    return { props: { id } };
 }

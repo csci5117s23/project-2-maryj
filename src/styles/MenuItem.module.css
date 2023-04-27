@@ -29,10 +29,10 @@
     color: var(--salmon);
 }
 
-.starFilled, .star:hover {
+.star:hover {
     color: var(--curd);
 }
 
-.star {
+.star  {
     color: var(--mist);
 }
