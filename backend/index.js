@@ -23,6 +23,11 @@ const restaurantSchema = object({
     })).required().default([]),
 });
 
+const imageSchema = object({
+    id: string().required(),
+    image: string().required(),
+});
+
 
 const userAuth = async (req, res, next) => {
     try {
@@ -64,22 +69,23 @@ app.post('/restaurants/:userId', async (req, res) => {
 });
 
 // Write me a codehooks endpoint that takes a image id and returns the image
-app.get('/image/:id', async (req, res) => {
+app.get('/get-image/:id', async (req, res) => {
     const conn = await Datastore.open();
-    const image = await conn.getOne('image', { filter: { id: req.params.id } });
-  
-    if (!image) {
-      return res.status(404).send('Image not found');
-    }
-  
-    // Convert the base64-encoded image data to binary data
-    const imageData = Buffer.from(image.data, 'base64');
-  
-    // Set the response headers and send the image data in the response body
-    res.set('Content-Type', image.contentType);
-    res.set('Content-Length', imageData.length);
-    res.send(imageData);
-  });
+    const cursor = conn.getMany('image', {filter: {id: req.params.id}})
+    await cursor.forEach((image) => {
+        const imageData = Buffer.from(image.image, 'base64');
+        console.log("length", imageData.length);
+        // res.writeHead(200, {
+        //     'Content-Length': imageData.length
+        // });
+        console.log("length post head", imageData.length);
+        console.log(res);
+        // console.log(imageData.);
+
+        res.write(imageData.data);
+    });
+    res.end();
+});
   
 // Write me a codehooks endpoint that takes in a image and uploads it to the datastore
 app.post('/upload-image', async (req, res) => {
@@ -88,11 +94,10 @@ app.post('/upload-image', async (req, res) => {
     req.body.id = Math.random().toString(36).substring(7);
     // upload the image to the datastore with the id
     // Convert the image to b64 before adding it to the database
-    req.body.image = Buffer.from(req.body.image, 'base64');
+    console.log(req.body);
     const image = await conn.insertOne('image', req.body);
-    res.json({url: `/image/${image.id}`});
+    res.json({url: `${req.headers.host}/dev/get-image/${image.id}`});
 });
-
 
 // Sanity check
 app.get('/hello', async (req, res) => {
@@ -101,7 +106,7 @@ app.get('/hello', async (req, res) => {
 });
 
 // Use Crudlify to create a REST API for any collection
-crudlify(app, {restaurant: restaurantSchema});
+crudlify(app, {restaurant: restaurantSchema, image: imageSchema});
 
 // bind to serverless runtime
 export default app.init();
