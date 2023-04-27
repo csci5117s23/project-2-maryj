@@ -3,7 +3,7 @@ import Camera from 'react-html5-camera-photo';
 import styles from "@/styles/ReflectionModal.module.css";
 import QuillWrapper from "@/components/QuillWrapper";
 import 'react-html5-camera-photo/build/css/index.css';
-import { MdEditNote, MdCameraAlt } from "react-icons/md";
+import { MdEditNote, MdCameraAlt, MdClose } from "react-icons/md";
 
 
 export interface ReflectionModalProps {
@@ -28,6 +28,10 @@ export default function ReflectionModal({ isVisible }: ReflectionModalProps) {
       {isVisible ? (
         <div className={styles.blur}>
           <div className={styles.container}>
+            <div className={styles.header}>
+              <h3>Reflection</h3>
+              <MdClose size="25px" />
+            </div>
             <QuillWrapper value={value} onChange={handleChange} />
             <div className={styles.buttons}>
               <button 
