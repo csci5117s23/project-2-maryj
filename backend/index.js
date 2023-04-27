@@ -68,6 +68,15 @@ app.post('/restaurants/:userId', async (req, res) => {
     res.json(restaurant);
 });
 
+// add an endpoint to get a resturant by user id and place id
+app.get('/get-restaurant/:userId/:placeId', async (req, res) => {
+    const userId = req.params.userId;
+    const placeId = req.params.placeId;
+    const conn = await Datastore.open();
+    const restaurant = await conn.getOne('restaurant', {filter: {userId: userId, placeId: placeId}});
+    res.json(restaurant);
+});
+
 // Write me a codehooks endpoint that takes a image id and returns the image
 app.get('/get-image/:id', async (req, res) => {
     const conn = await Datastore.open();
@@ -103,6 +112,30 @@ app.post('/upload-image', async (req, res) => {
 app.get('/hello', async (req, res) => {
     console.log("I run locally, cool!");
     res.json({"message": "Hello local world!"});
+});
+
+// Make an endpoint that takes in a restaurant id and adds a new item to it
+app.post('/add-item/:restaurantId', async (req, res) => {
+    const conn = await Datastore.open();
+    const restaurant = await conn.getOne('restaurant', req.params.restaurantId);
+    restaurant.itemsTried.push(req.body);
+    await conn.updateOne('restaurant', req.params.restaurantId, restaurant);
+    res.json(restaurant);
+});
+
+// Make an endpoint that takes in a restaurant id, item name, and reflection and updates it
+app.post('/update-item/:restaurantId', async (req, res) => {
+    const conn = await Datastore.open();
+    const restaurant = await conn.getOne('restaurant', req.params.restaurantId);
+    const item = restaurant.itemsTried.find((item) => item.name === req.body.name);
+    if (req.body.reflect) {
+        item.reflection = req.body.reflection;
+    }
+    if (req.body.liked) {
+        item.liked = req.body.liked;
+    }
+    await conn.updateOne('restaurant', req.params.restaurantId, restaurant);
+    res.json(restaurant);
 });
 
 // Use Crudlify to create a REST API for any collection

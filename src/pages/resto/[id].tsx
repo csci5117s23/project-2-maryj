@@ -24,6 +24,8 @@ export default function Resto() {
     const [restaurant, setRestaurant]: [any, Function] = useState(undefined);
     const router = useRouter();
 
+    console.log(userId);
+
     useEffect(() => {
         if (!isLoaded || !router.isReady) return;
 
