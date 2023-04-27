@@ -21,6 +21,61 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  resize: both;
   overflow-y: scroll;
+  resize: both;
+}
+
+.camera-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  z-index: 99999;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.camera, .save {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  gap: 4px;
+}
+
+.camera {
+  background: white;
+  border: 1px solid #EA7153;
+  color: #EA7153;
+}
+
+.camera:hover {
+  background: #EA7153;
+  border: 1px solid #EA7153;
+  color: white;
+}
+
+.save {
+  background: #EA7153;
+  border: 1px solid #EA7153;
+  color: white;
+}
+
+.save:hover {
+  background: white;
+  color: #EA7153;
+  border: 1px solid #EA7153;
 }
