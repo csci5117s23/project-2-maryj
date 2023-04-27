@@ -33,6 +33,7 @@ export default function Header() {
         </Link>
       </div>
       <div className={styles.logo}>
+      {/* <div> */}
         {/* logo stuff */}
         <JenkinsGuy/>
       </div>

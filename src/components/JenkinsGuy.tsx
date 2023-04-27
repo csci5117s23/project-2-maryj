@@ -1,6 +1,8 @@
 import style from '../styles/jenkinsGuy.module.css';
 import{ useState } from 'react';
 import Modal from "react-modal";
+import Image from 'next/image'
+
 
 
 Modal.setAppElement('body');
@@ -24,7 +26,8 @@ export default function JenkinsGuy() {
 
   return (
     <div>
-        <button onClick={getFunFact}>FACT</button>
+        <Image 
+          onClick={getFunFact} src="/jenkinsGuy.png" alt="Jenkins" width="70" height="60"/>
         <Modal className={style.funFactModal} isOpen={isOpen} onRequestClose={closeModal}>
             <div className={style.funFactText} >Fun fact: {funFact}</div>
         </Modal>
