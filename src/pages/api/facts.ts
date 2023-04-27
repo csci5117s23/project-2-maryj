@@ -17,11 +17,11 @@ export default async function getFact(
       });
   
       if (result.status !== 200) {
-        throw new Error(`Failed to get fact from API-NINJAS, status code: ${result.status}`);
+        throw new Error(`Failed to get fact from API-NINJAS, the returned status: ${result.status}`);
       }
-  
-      const data = await result.json();
-      res.status(200).json(data[0]);
+      const returnedResponse = await result.json();
+      res.status(200).json(returnedResponse[0]);
+
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Something is wrong I can feel it ' });

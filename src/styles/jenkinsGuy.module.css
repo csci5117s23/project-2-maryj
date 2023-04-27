@@ -20,3 +20,11 @@
 .funFactText{
     padding: 5%;
 }
+
+/* change the text size and padding based on screen size */
+@media only screen and (min-width: 750px) {
+    .funFactText {
+        font-size: 23px;
+        padding: 3%;
+    }
+}
