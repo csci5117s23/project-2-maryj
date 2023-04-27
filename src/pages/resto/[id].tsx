@@ -21,13 +21,13 @@ interface RestaurantInfo {
 
 export default function Resto() {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
-    const [id, setID]: [any, Function] = useState(undefined);
+    const [restaurant, setRestaurant]: [any, Function] = useState(undefined);
     const router = useRouter();
 
     useEffect(() => {
         if (!isLoaded || !router.isReady) return;
 
-        async function verify() {
+        async function getRestaurant() {
 
             // Not logged in
             if (!userId) {
@@ -45,15 +45,16 @@ export default function Resto() {
             });
 
             // Bad Auth
-            // if (!response.ok) {
-            //     router.push("/404");
-            //     return;
-            // }
-
-            setID(restaurantID);
+            if (!response.ok) {
+                router.push("/404");
+                return;
+            }
+            
+            const data = await response.json();
+            setRestaurant(data);
         }
 
-        verify();
+        getRestaurant();
     }, [isLoaded, router, getToken, userId]);
 
     // TODO: FETCH RELEVANT DATA FROM ID, USERID HERE
@@ -81,7 +82,7 @@ export default function Resto() {
                     id={"add-item"}
                     name={"add-item"}
                 />
-                <Menu id={id} />
+                <Menu restaurant={restaurant} />
             </div>
         </>
     );

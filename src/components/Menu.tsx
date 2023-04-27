@@ -1,10 +1,10 @@
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { useState, useEffect, useRef, MutableRefObject } from "react";
+import { useState, useRef, MutableRefObject } from "react";
 import styles from '@/styles/Menu.module.css';
 import MenuItem from "./MenuItem";
 
 interface MenuProps {
-    id: number;
+    restaurant: any;
 }
 
 interface MenuItems {
@@ -41,30 +41,14 @@ const dummyMenuItems: MenuItems[] = [
     }
 ];
 
-export default function Menu({ id }: MenuProps) {
-    const [menuItems, setMenuItems]: [MenuItems[], Function] = useState<MenuItems[]>([]);
+export default function Menu({ restaurant }: MenuProps) {
+    const [menuItems, setMenuItems]: [MenuItems[], Function] = useState<MenuItems[]>(restaurant.itemsTried);
     const [viewMenuItems, setViewMenuItems]: [boolean, Function] = useState<boolean>(false);
     const [viewLikedItems, setViewLikedItems]: [boolean, Function] = useState<boolean>(false);
     const liked = useRef() as MutableRefObject<HTMLDivElement>;
     const menu = useRef() as MutableRefObject<HTMLDivElement>;
 
-    useEffect(() => {
-        if (!id) return;
-
-        async function getMenuItems() {
-            setMenuItems(dummyMenuItems);
-
-            const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT + `/restaurant/${id}`);
-            // Store this in menuItems
-            const data: any = await response.json();
-
-            // Fetch for menuItems
-            // setMenuItems(data.itemsTried);
-        }
-        getMenuItems();
-    }, [id]);
-
-    if (id === undefined) {
+    if (restaurant === undefined) {
         return null;
     }
 
