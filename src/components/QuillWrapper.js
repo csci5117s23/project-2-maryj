@@ -3,12 +3,11 @@
 import React, { useEffect, useMemo, useRef, forwardRef } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
-
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
 
-    const WrappedReactQuill = ((props, forwardedRef) => {
+    const WrappedReactQuill = forwardRef((props, forwardedRef) => {
       const quillRef = useRef(null);
 
       // Custom image upload handler
@@ -24,7 +23,6 @@ const ReactQuill = dynamic(
             "accept",
             "image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
           );
-          fileInput.classList.add("ql-image");
 
           fileInput.addEventListener("change", () => {
             const files = fileInput.files;
@@ -36,11 +34,20 @@ const ReactQuill = dynamic(
             }
 
             const formData = new FormData();
-            formData.append("file", files[0]);
-            formData.append("uid", uid);
-            formData.append("img_type", "detail");
-            quill.enable(false);
-            console.log(files[0]);
+            formData.append("image", files[0]);
+
+            fetch("https://your-api-endpoint.com/upload-image", {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                const url = data.url; // Assuming the API returns the URL of the uploaded image
+                quill.insertEmbed(range.index, "image", url, "user");
+              })
+              .catch((error) => {
+                console.error(error);
+              });
           });
           quill.root.appendChild(fileInput);
         }
@@ -58,7 +65,7 @@ const ReactQuill = dynamic(
               [{ script: "sub" }, { script: "super" }], // superscript/subscript
               [{ header: 1 }, { header: 2 }], // custom button values
               ["blockquote", "code-block"],
-              ["link", "image", "video"],
+              ["link", "image"],
               [{ list: "ordered" }, { list: "bullet" }],
               [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
               [{ align: [] }],
@@ -74,7 +81,9 @@ const ReactQuill = dynamic(
 
       return (
         <RQ
-          ref={quillRef}
+          ref={(ref) => {
+            quillRef.current = ref;
+          }}
           modules={modules}
           {...props}
         />
