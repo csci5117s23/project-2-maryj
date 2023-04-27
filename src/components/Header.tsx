@@ -32,11 +32,7 @@ export default function Header() {
           <div className={styles.icon}><MdLogout /></div>
         </Link>
       </div>
-      <div className={styles.logo}>
-      {/* <div> */}
-        {/* logo stuff */}
-        <JenkinsGuy/>
-      </div>
+      <JenkinsGuy/>
     </div>
   )
 }

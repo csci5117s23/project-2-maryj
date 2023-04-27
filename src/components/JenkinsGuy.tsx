@@ -1,15 +1,17 @@
 import style from '../styles/jenkinsGuy.module.css';
-import{ useState } from 'react';
+import { useState } from 'react';
 import Modal from "react-modal";
-import Image from 'next/image'
-
+import Image from 'next/image';
+import Logo from "../../public/jenkinsGuy.png";
+import AltLogo from "../../public/jenkinsGuyFolded.png";
 
 
 Modal.setAppElement('body');
 
 export default function JenkinsGuy() {
-  const [funFact, setFunFact]=useState('');
+  const [funFact, setFunFact] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
 
   async function getFunFact() {
@@ -26,11 +28,17 @@ export default function JenkinsGuy() {
 
   return (
     <div>
-        <Image 
-          onClick={getFunFact} src="/jenkinsGuy.png" alt="Jenkins" width="70" height="60"/>
-        <Modal className={style.funFactModal} isOpen={isOpen} onRequestClose={closeModal}>
-            <div className={style.funFactText} >Fun fact: {funFact}</div>
-        </Modal>
+      <Image 
+        className={style.image}
+        onClick={getFunFact}
+        alt="Jenkins"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        src={isHovered ? Logo : AltLogo} // use the alt image if isHovered is true
+      />
+      <Modal className={style.funFactModal} isOpen={isOpen} onRequestClose={closeModal}>
+        <div className={style.funFactText} >Fun fact: {funFact}</div>
+      </Modal>
     </div>
   );
 
