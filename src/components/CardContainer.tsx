@@ -2,6 +2,8 @@ import Card from "./Card";
 import { useState, useEffect } from "react";
 import styles from '@/styles/CardContainer.module.css';
 
+const backend_base = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+
 interface CardContainerProps {
     filter: string;
 }
@@ -54,6 +56,37 @@ const dummyCards: Card[] = [
 
 export default function CardContainer({ filter }: CardContainerProps) {
     const [cards, setCards]: [Card[], Function] = useState<Card[]>([]);
+
+    const [lat,setLat] = useState<string>("");
+    const [lon,setLon] = useState<string>("");
+
+    useEffect(()=>{
+        async function getGeo(){
+            navigator.geolocation.getCurrentPosition((position)=>{
+                setLat(position.coords.latitude.toString());
+                setLon(position.coords.longitude.toString());
+            })
+        }
+        getGeo();
+    }, []);
+
+    // console.log(lat,lon);
+    let queryString = backend_base + "/google?lat="+lat+"&lon="+lon;
+    // console.log(queryString);
+    
+    useEffect(()=>{
+        async function getNearbyPlaces(){
+            const response = await fetch(queryString, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const data = await response.json();
+            console.log(data);
+        }
+        getNearbyPlaces();
+    }, [lat,lon]);
 
     useEffect(() => {
         

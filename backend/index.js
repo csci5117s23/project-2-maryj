@@ -138,6 +138,31 @@ app.post('/update-item/:restaurantId', async (req, res) => {
     res.json(restaurant);
 });
 
+app.get("/google", async (req, res) => {
+    // TODO: get this from the environment
+    const google_api_key = "AIzaSyCTYBU_S3FSdZ6N_0Mxrz5ldKzoIh1qrfo";
+
+    let lat = req.query.lat;
+    let lng = req.query.lon;
+
+    let google_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurant&location=";
+    google_url += lat + "," + lng + "&radius=1000&key=";
+    google_url += `${google_api_key}`;
+    // console.log(google_url);
+    // console.log(google_api_key);
+
+    const response = await fetch(google_url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+        },
+    });
+    const data = await response.json();
+    // console.log(data);
+    res.json(data);
+});
+
 // Use Crudlify to create a REST API for any collection
 crudlify(app, {restaurant: restaurantSchema, image: imageSchema});
 
