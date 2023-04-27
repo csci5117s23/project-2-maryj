@@ -2,17 +2,17 @@ import { MdEdit, MdStar, MdStarBorder } from 'react-icons/md';
 import styles from '@/styles/MenuItem.module.css';
 
 interface MenuItemProps {
-    id: number;
     title: string;
-    isFavorite: boolean;
+    liked: boolean;
+    reflection: string;
 }
 
-export default function MenuItem({ id, title, isFavorite }: MenuItemProps) {
-    return (     
+export default function MenuItem({ title, liked, reflection }: MenuItemProps) {
+    return (
         <div className={styles.container}>
             <h3>{title}</h3>
             <div className={styles.options}>
-                {isFavorite ?
+                {liked ?
                     <MdStar 
                         className={styles.star}
                         size="25px"
