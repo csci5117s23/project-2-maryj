@@ -34,7 +34,7 @@ export default function JenkinsGuy() {
         alt="Jenkins"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        src={isHovered ? Logo : AltLogo} // use the alt image if isHovered is true
+        src={isHovered ? Logo : AltLogo} // use the logo image if isHovered is true
       />
       <Modal className={style.funFactModal} isOpen={isOpen} onRequestClose={closeModal}>
         <div className={style.funFactText} >Fun fact: {funFact}</div>
