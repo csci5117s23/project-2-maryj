@@ -7,6 +7,7 @@ import {app, Datastore} from 'codehooks-js'
 import {crudlify} from 'codehooks-crudlify'
 import { object, string, array, number, boolean } from 'yup'
 import jwtDecode from 'jwt-decode'
+import fetch from 'node-fetch'
 
 const backend_base = "https://backend-qsum.api.codehooks.io/dev";
 const google_api_key = process.env.GOOGLE_API_KEY;
