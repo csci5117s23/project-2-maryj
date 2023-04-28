@@ -16,7 +16,8 @@ interface RestoProps {
 // TODO: delete this once backend exists and fetch data
 interface RestaurantInfo {
     image: string,
-    title: string,
+    name: string,
+    starred: boolean,
 }
 
 export default function Resto() {
@@ -62,19 +63,20 @@ export default function Resto() {
     // TODO: FETCH RELEVANT DATA FROM ID, USERID HERE
     //       delete this once this is done
     const dummyRestaurant: RestaurantInfo = {
-        title: "Raising Cane's",
+        name: "Raising Cane's",
         image: "https://i.imgur.com/tB3WB6m.jpeg",
+        starred: true,
     }
 
     return (
         <>
             <Header />
             <div className={styles.container}>
-                <div className={styles.title}>{dummyRestaurant.title}</div>
+                <div className={styles.title}>{dummyRestaurant.name}</div>
                 <div className={styles.image}>
                     <ImageCustom
                         url={dummyRestaurant.image}
-                        isStarred={true}
+                        isStarred={dummyRestaurant.starred}
                         title={dummyRestaurant.image}
                         isResto={true}
                     />
