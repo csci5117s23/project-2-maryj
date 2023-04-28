@@ -7,7 +7,6 @@ import {app, Datastore} from 'codehooks-js'
 import {crudlify} from 'codehooks-crudlify'
 import { object, string, array, number, boolean } from 'yup'
 import jwtDecode from 'jwt-decode'
-import { platform } from 'os';
 
 const backend_base = "http://localhost:3000/dev";
 
@@ -57,14 +56,24 @@ app.use(userAuth)
 //     next();
 // });
 
-// add an endpoint to get a resturant by user id and place id
-// app.get('/get-restaurant/:userId/:placeId', async (req, res) => {
-//     const userId = req.params.userId;
-//     const placeId = req.params.placeId;
-//     const conn = await Datastore.open();
-//     const restaurant = await conn.getOne('restaurant', {filter: {userId: userId, placeId: placeId}});
-//     res.json(restaurant);
-// });
+// Write the above code but switch to using a post request and a json body for the user and place id
+app.post('/get-restaurant', async (req, res) => {
+    const userId = req.body.userId;
+    const placeId = req.body.placeId;
+    const conn = await Datastore.open();
+    const cursor = conn.getMany('restaurant', {filter: {userId: userId, placeId: placeId}});
+    let restaurant = null;
+    await cursor.forEach((item) => {
+        restaurant = item;
+        return;
+    });
+
+    if (restaurant === null) {
+        res.status(404).send("Restaurant not found");
+    } else {
+        res.json(restaurant);
+    }
+});
 
 // Write me a codehooks endpoint that takes a image id and returns the image
 app.get('/get-image/:id', async (req, res) => {
