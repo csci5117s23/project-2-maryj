@@ -9,7 +9,6 @@ import { object, string, array, number, boolean } from 'yup'
 import jwtDecode from 'jwt-decode'
 
 const backend_base = "https://backend-qsum.api.codehooks.io/dev";
-const google_api_key = process.env.GOOGLE_API_KEY;
 
 const restaurantSchema = object({
     userId: string().required(),
@@ -59,24 +58,14 @@ app.use(userAuth)
 //     next();
 // });
 
-// Write the above code but switch to using a post request and a json body for the user and place id
-app.post('/get-restaurant', async (req, res) => {
-    const userId = req.body.userId;
-    const placeId = req.body.placeId;
-    const conn = await Datastore.open();
-    const cursor = conn.getMany('restaurant', {filter: {userId: userId, placeId: placeId}});
-    let restaurant = null;
-    await cursor.forEach((item) => {
-        restaurant = item;
-        return;
-    });
-
-    if (restaurant === null) {
-        res.status(404).send("Restaurant not found");
-    } else {
-        res.json(restaurant);
-    }
-});
+// add an endpoint to get a resturant by user id and place id
+// app.get('/get-restaurant/:userId/:placeId', async (req, res) => {
+//     const userId = req.params.userId;
+//     const placeId = req.params.placeId;
+//     const conn = await Datastore.open();
+//     const restaurant = await conn.getOne('restaurant', {filter: {userId: userId, placeId: placeId}});
+//     res.json(restaurant);
+// });
 
 // Write me a codehooks endpoint that takes a image id and returns the image
 app.get('/get-image/:id', async (req, res) => {
@@ -141,7 +130,7 @@ app.post("/google", async (req, res) => {
     let lat = req.body.lat.toString();
     let lng = req.body.lon.toString();
     let userId = req.body.userId;
-    console.log(lat, lng, userId);
+    console.log(lat, lng, userId)
 
     let google_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurant&location=";
     google_url += lat + "," + lng + "&radius=1000&key=";
@@ -208,3 +197,153 @@ crudlify(app, {restaurant: restaurantSchema, image: imageSchema});
 
 // bind to serverless runtime
 export default app.init();
+
+
+import Card from "./Card";
+import { useState, useEffect } from "react";
+import styles from '@/styles/CardContainer.module.css';
+import { useAuth } from '@clerk/nextjs';
+
+const backend_base = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+
+interface CardContainerProps {
+    filter: string;
+}
+
+interface Card {
+    id: number;
+    title: string;
+    category: string;
+    image: string;
+    isStarred: boolean;
+}
+
+const dummyCards: Card[] = [
+    {
+      id: 1,
+      title: "Raising Cane's Chicken Fingers",
+      category: "Fried Chicken",
+      image: "https://i.imgur.com/tB3WB6m.jpeg",
+      isStarred: false
+    },
+    {
+      id: 2,
+      title: "Hong Kong Noodle",
+      category: "Chinese Cuisine",
+      image: "https://i.imgur.com/FL5Xd1Y.jpeg",
+      isStarred: true
+    },
+    {
+      id: 3,
+      title: "Sushi Station",
+      category: "Japanese",
+      image: "https://i.imgur.com/tB3WB6m.jpeg",
+      isStarred: false
+    },
+    {
+      id: 4,
+      title: "Chipotle Mexican Grill",
+      category: "Mexican",
+      image: "https://i.imgur.com/FL5Xd1Y.jpeg",
+      isStarred: true
+    },
+    {
+      id: 5,
+      title: "Café de Paris",
+      category: "French",
+      image: "https://i.imgur.com/tB3WB6m.jpeg",
+      isStarred: false
+    }
+];
+
+export default function CardContainer({ filter }: CardContainerProps) {
+    // add auth
+    const { isLoaded, userId, sessionId, getToken } = useAuth();
+    const [cards, setCards]: [Card[], Function] = useState<Card[]>([]);
+
+    const [lat,setLat] = useState<string>("");
+    const [lon,setLon] = useState<string>("");
+    const [restaurants, setRestaurants] = useState<any[]>([]);
+
+    useEffect(()=>{
+        async function getGeo(){
+            navigator.geolocation.getCurrentPosition((position)=>{
+                setLat(position.coords.latitude.toString());
+                setLon(position.coords.longitude.toString());
+            });
+        }
+        getGeo();
+    }, []);
+
+    // // Delete all restaurants lol
+    // useEffect(()=>{
+    //     async function clearDatabase(){
+    //         let queryString = backend_base + "/clear";
+    //         // console.log(queryString)
+    //         const response = await fetch(queryString, {
+    //             method: "DELETE",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body : JSON.stringify({
+    //                 userId: userId,
+    //             }),
+    //         });
+    //         const data = await response.json();
+    //         // console.log(data);
+    //     }
+    //     clearDatabase();
+    // }, [userId]);
+    
+    useEffect(()=>{
+        async function getNearbyPlaces(){
+            let queryString = backend_base + "/google";
+            // console.log(queryString)
+            console.log(lat,lon)
+            const response = await fetch(queryString, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body : JSON.stringify({
+                    lat: lat,
+                    lon: lon,
+                    userId: userId,
+                }),
+            });
+            const data = await response.json();
+            setRestaurants(data);
+            console.log(data);
+        }
+        getNearbyPlaces();
+    }, [lat]);
+
+
+    useEffect(() => {
+        
+        // Fetch for cards and set them in setCards() function
+        async function getCards() {
+            // const response = await fetch()
+            setCards(dummyCards);
+        }
+        getCards();
+    }, []);
+
+
+    return (
+        <div className={styles.container}>
+            {cards.map(card => {
+                return (
+                    <Card
+                        key={card.id}
+                        id={card.id}
+                        title={card.title}
+                        category={card.category}
+                        image={card.image}
+                        isStarred={card.isStarred}
+                    />                    
+                );
+            })}
+        </div>
+    );
+}
