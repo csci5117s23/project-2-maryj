@@ -7,9 +7,8 @@ import {app, Datastore} from 'codehooks-js'
 import {crudlify} from 'codehooks-crudlify'
 import { object, string, array, number, boolean } from 'yup'
 import jwtDecode from 'jwt-decode'
-import { platform } from 'os';
 
-const backend_base = "http://localhost:3000/dev";
+const backend_base = "https://backend-qsum.api.codehooks.io/dev";
 
 const restaurantSchema = object({
     userId: string().required(),
@@ -18,6 +17,8 @@ const restaurantSchema = object({
     starred: boolean().required().default(false),
     liked: boolean().required().default(false),
     favoriteItems: array().of(string()).required().default([]),
+    imageId: string().required().default(""),
+    address: string().required().default(""),
 
     itemsTried: array().of(object({
         name: string().required(),
@@ -121,12 +122,6 @@ app.post('/update-item/:restaurantId', async (req, res) => {
     res.json(restaurant);
 });
 
-// Endpoint that returns all restaurants for user, place
-app.get('/restaurants', async (req, res) => {
-    const conn = await Datastore.open();
-    const restaurants = conn.getMany('restaurant', {filter: {userId: req.query.userId, placeId: req.query.placeId}});
-    res.json(restaurants);
-});
 
 app.post("/google", async (req, res) => {
     // TODO: get this from the environment
@@ -151,33 +146,33 @@ app.post("/google", async (req, res) => {
         },
     });
     const data = await response.json();
+    // console.log(data)
 
     // Add restaurants to the database
     const restaurantsAdded = [];
     const conn = await Datastore.open();
     for (const restaurant of data.results) {
-        // console.log(restaurant.name)
-        // if (await restaurantExists(userId, restaurant.place_id)) {
-        //     console.log("Restaurant already exists")
-        //     continue;
-        // }
-        let rests = await fetch(backend_base + "/restaurants?userId=" + userId + "&placeId=" + restaurant.place_id, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        rests = await rests.json();
-        // console.log(rests)
 
-        // if (rest.length > 0) {
-        //     console.log("Restaurant already exists")
-        //     continue;
-        // }
+        // const conn = await Datastore.open();
+        const restaurants = conn.getMany('restaurant', {filter: {userId: userId, placeId: restaurant.place_id}});
+        const rest = await restaurants.toArray();
+        // console.log(rest.length);
+
+        if (rest.length > 0) {
+            console.log("Restaurant already exists");
+
+            restaurantsAdded.push(rest[0]);
+            continue;
+        }
+
         let newRestaurant = {
             userId: userId,
             placeId: restaurant.place_id,
             name: restaurant.name,
+            imageId: restaurant.photos[0].photo_reference,
+            starred: false,
+            liked: false,
+            address: restaurant.formatted_address,
         }
         // console.log(newRestaurant)
         const doc = await conn.insertOne('restaurant', newRestaurant);

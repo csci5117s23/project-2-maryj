@@ -118,7 +118,6 @@ export default function CardContainer({ filter }: CardContainerProps) {
     }, [lat]);
 
 
-
     useEffect(() => {
         
         // Fetch for cards and set them in setCards() function
