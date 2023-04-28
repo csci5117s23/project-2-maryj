@@ -27,10 +27,6 @@ export default function Trac() {
   return (
     <>
       <Header/>
-<<<<<<< Updated upstream
-=======
-      <ReflectionModal isVisible={false}/>
->>>>>>> Stashed changes
       <CardContainer filter={filter}/>
       <ReflectionModal isVisible={true} resutaurantId={''} itemName={''} />
     </>
