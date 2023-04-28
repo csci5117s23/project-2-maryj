@@ -30,7 +30,6 @@ export default function Resto() {
     function addMenuItem(event : any): void {
         event.preventDefault();
 
-        // TODO: add to db logic 
         const menuItem = {
             name: newItemName,
             liked: false,
@@ -41,9 +40,10 @@ export default function Resto() {
 
     console.log(userId);
 
+    // TODO: add useEffect for handling adding a menu item to a restaurant
+
     useEffect(() => {
         if (!isLoaded || !router.isReady) return;
-
         async function getRestaurant() {
 
             // Not logged in
@@ -70,7 +70,6 @@ export default function Resto() {
             const data = await response.json();
             setRestaurant(data);
         }
-
         getRestaurant();
     }, [isLoaded, router, getToken, userId]);
 
