@@ -22,7 +22,22 @@ interface RestaurantInfo {
 export default function Resto() {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
     const [restaurant, setRestaurant]: [any, Function] = useState(undefined);
+    const [newItemName, setNewItemName]: [string, Function] = useState("");
     const router = useRouter();
+
+    // add menu item => update restaurant.itemsTried
+    // TODO: i forgot what type this is formally
+    function addMenuItem(event : any): void {
+        event.preventDefault();
+
+        // TODO: add to db logic 
+        const menuItem = {
+            name: newItemName,
+            liked: false,
+            reflection: ""
+        }
+        restaurant.itemsTried = [...restaurant.itemsTried, menuItem]
+    }
 
     console.log(userId);
 
@@ -80,11 +95,13 @@ export default function Resto() {
                         isResto={true}
                     />
                 </div>
-                <form action="/" method="post">
+                <form onSubmit={addMenuItem}>
                     <input
                         className={styles.input}
                         placeholder={"Add item here..."}
                         type="text" id={"add-item"} name={"add-item"}
+                        onChange={(event) => {setNewItemName(event?.target.value)}}
+                        value={newItemName}
                     />
                 </form>
                 <Menu restaurant={restaurant} />
