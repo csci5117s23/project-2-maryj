@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Trac() {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
-  const [filter, setFilter] = useState<string>('Trac');
+  const [filter, setFilter] = useState<string>('Home');
   const router = useRouter();
 
   useEffect(() => {

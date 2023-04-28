@@ -1,31 +1,56 @@
 
 import styles from '@/styles/Card.module.css';
+import { useAuth } from '@clerk/nextjs';
 import { useState } from 'react';
 import ImageCustom from './Image';
 
 interface CardProps {
     id: number;
     title: string;
-    category: string;
+    address: string;
     image: string;
     isStarred: boolean;
 }
 
-export default function Card({ id, title, category, image, isStarred }: CardProps) {
+const backend_base = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+
+export default function Card({ id, title, address, image, isStarred }: CardProps) {
     const [starState, setStarState]: [boolean, Function] = useState(isStarred);
+    const { userId, getToken } = useAuth();
+
+    async function update() {
+        const token = await getToken({ template: 'codehooks' });
+
+        await fetch(backend_base + '/update-restaurant', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token,
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                placeId: id,
+                userId: userId,
+                starred: !isStarred
+            })
+        });
+
+        setStarState(!starState);
+    }
 
     return (
         <div className={styles.card}>
             <div className={styles['image-container']}>
                 <ImageCustom 
                     url={image}
-                    isStarred={isStarred}
+                    isStarred={starState}
                     title={title}
-                    isResto={false}                
+                    isResto={false} 
+                    update={update}               
                 />
             </div>
             <h1 className={styles.title}>{title}</h1>
-            <p className={styles.category}>{category}</p>
+            <p className={styles.address}>{address}</p>
         </div>
     );
 }

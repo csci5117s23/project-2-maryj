@@ -7,30 +7,38 @@ interface ImgProps {
   url : string,
   isStarred : boolean,
   title : string,
-  isResto : boolean
+  isResto : boolean,
+  update: Function
 }
 
-export default function ImageCustom({ url, isStarred, title, isResto=false } : ImgProps) {
-  const [starState, setStarState]: [boolean, Function] = useState(isStarred);
+export default function ImageCustom({ url, isStarred, title, isResto = false, update } : ImgProps) {
+  let photo_url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
+  photo_url += url;
+  photo_url += "&key=";
+  photo_url += process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   return (
     <div className={styles[isResto ? 'resto-container' : 'image-container']}>
       <Image
         className={styles[isResto ? 'image-resto' : 'image']}
-        src={url}
+        src={photo_url}
         alt={`image of ${title}`}
         fill
+        sizes="(max-width: 768px) 100vw,
+        (max-width: 1200px) 50vw,
+        33vw"
+        priority
       />
-      {starState ?
+      {isStarred ?
         <MdStar
           className={styles['image-star']}
           size="25px"
-          onClick={e => setStarState(!starState)}
+          onClick={e => update()}
         /> :
         <MdStarBorder
           className={styles['image-star']}
           size="25px"
-          onClick={e => setStarState(!starState)}
+          onClick={e => update()}
         />
       }
     </div>

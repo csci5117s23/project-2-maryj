@@ -12,8 +12,9 @@ interface CardContainerProps {
 interface Card {
     id: number;
     title: string;
-    category: string;
+    address: string;
     image: string;
+    isLiked: boolean;
     isStarred: boolean;
 }
 
@@ -21,36 +22,41 @@ const dummyCards: Card[] = [
     {
       id: 1,
       title: "Raising Cane's Chicken Fingers",
-      category: "Fried Chicken",
+      address: "Fried Chicken",
       image: "https://i.imgur.com/tB3WB6m.jpeg",
+      isLiked: false,
       isStarred: false
     },
     {
       id: 2,
       title: "Hong Kong Noodle",
-      category: "Chinese Cuisine",
+      address: "Chinese Cuisine",
       image: "https://i.imgur.com/FL5Xd1Y.jpeg",
+      isLiked: false,
       isStarred: true
     },
     {
       id: 3,
       title: "Sushi Station",
-      category: "Japanese",
+      address: "Japanese",
       image: "https://i.imgur.com/tB3WB6m.jpeg",
+      isLiked: false,
       isStarred: false
     },
     {
       id: 4,
       title: "Chipotle Mexican Grill",
-      category: "Mexican",
+      address: "Mexican",
       image: "https://i.imgur.com/FL5Xd1Y.jpeg",
+      isLiked: false,
       isStarred: true
     },
     {
       id: 5,
       title: "Café de Paris",
-      category: "French",
+      address: "French",
       image: "https://i.imgur.com/tB3WB6m.jpeg",
+      isLiked: false,
       isStarred: false
     }
 ];
@@ -78,11 +84,13 @@ export default function CardContainer({ filter }: CardContainerProps) {
     // useEffect(()=>{
     //     async function clearDatabase(){
     //         let queryString = backend_base + "/clear";
+    //         const token = await getToken({ template: 'codehooks' });
     //         // console.log(queryString)
     //         const response = await fetch(queryString, {
     //             method: "DELETE",
     //             headers: {
     //                 "Content-Type": "application/json",
+    //                 "Authorization": "Bearer " + token
     //             },
     //             body : JSON.stringify({
     //                 userId: userId,
@@ -94,40 +102,77 @@ export default function CardContainer({ filter }: CardContainerProps) {
     //     clearDatabase();
     // }, [userId]);
     
-    useEffect(()=>{
-        async function getNearbyPlaces(){
-            let queryString = backend_base + "/google";
-            // console.log(queryString)
-            console.log(lat,lon)
-            const response = await fetch(queryString, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body : JSON.stringify({
-                    lat: lat,
-                    lon: lon,
-                    userId: userId,
-                }),
-            });
-            const data = await response.json();
-            setRestaurants(data);
-            console.log(data);
-        }
-        getNearbyPlaces();
-    }, [lat]);
-
-
-
     useEffect(() => {
-        
-        // Fetch for cards and set them in setCards() function
-        async function getCards() {
-            // const response = await fetch()
-            setCards(dummyCards);
+        if (!lat || !lon || !userId || !filter) return;
+
+        async function getNearbyPlaces() {
+            const token = await getToken({ template: 'codehooks' });
+            let response = null;
+
+            if (filter === "Starred") {
+                response = await fetch(backend_base + "/get-restaurants", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token,
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify({
+                        lat: lat,
+                        lon: lon,
+                        userId: userId,
+                        starred: true,
+                        filter: filter
+                    })
+                });
+            } else if (filter === "Likes") {
+                response = await fetch(backend_base + "/get-restaurants", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token,
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify({
+                        lat: lat,
+                        lon: lon,
+                        userId: userId,
+                        liked: true,
+                        filter: filter
+                    })
+                });
+            } else {
+                response = await fetch(backend_base + "/google", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token,
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify({
+                        lat: lat,
+                        lon: lon,
+                        userId: userId,
+                    })
+                });
+            }
+            
+            const data = await response.json();
+            setCards(data.map((entry: any) => {
+                return {
+                    id: entry.placeId,
+                    title: entry.name,
+                    address: entry.address,
+                    image: entry.imageId,
+                    isLiked: entry.liked,
+                    isStarred: entry.starred
+                };
+            }))
         }
-        getCards();
-    }, []);
+        
+        getNearbyPlaces();
+    }, [lat, lon, userId, getToken, filter]);
+
 
 
     return (
@@ -138,7 +183,7 @@ export default function CardContainer({ filter }: CardContainerProps) {
                         key={card.id}
                         id={card.id}
                         title={card.title}
-                        category={card.category}
+                        address={card.address}
                         image={card.image}
                         isStarred={card.isStarred}
                     />                    
