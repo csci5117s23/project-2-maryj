@@ -28,7 +28,6 @@ export default function Trac() {
     <>
       <Header/>
       <CardContainer filter={filter}/>
-      <ReflectionModal isVisible={true} resutaurantId={''} itemName={''} />
     </>
   )
 }

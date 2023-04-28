@@ -63,16 +63,15 @@ const dummyCards: Card[] = [
 
 export default function CardContainer({ filter }: CardContainerProps) {
     // add auth
-    const { isLoaded, userId, sessionId, getToken } = useAuth();
+    const { userId, getToken } = useAuth();
     const [cards, setCards]: [Card[], Function] = useState<Card[]>([]);
 
-    const [lat,setLat] = useState<string>("");
-    const [lon,setLon] = useState<string>("");
-    const [restaurants, setRestaurants] = useState<any[]>([]);
+    const [lat, setLat] = useState<string>("");
+    const [lon, setLon] = useState<string>("");
 
     useEffect(()=>{
-        async function getGeo(){
-            navigator.geolocation.getCurrentPosition((position)=>{
+        async function getGeo() {
+            navigator.geolocation.getCurrentPosition((position) => {
                 setLat(position.coords.latitude.toString());
                 setLon(position.coords.longitude.toString());
             });
@@ -172,8 +171,6 @@ export default function CardContainer({ filter }: CardContainerProps) {
         
         getNearbyPlaces();
     }, [lat, lon, userId, getToken, filter]);
-
-
 
     return (
         <div className={styles.container}>

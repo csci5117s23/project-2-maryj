@@ -1,6 +1,7 @@
 import { MdHomeFilled, MdFavorite, MdStar, MdLogout } from "react-icons/md";
 import { useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/router";
+import JenkinsGuy from "./JenkinsGuy";
 import Link from 'next/link';
 import styles from '@/styles/Header.module.css'
 
@@ -31,9 +32,7 @@ export default function Header() {
           <div className={styles.icon}><MdLogout /></div>
         </Link>
       </div>
-      <div className={styles.logo}>
-        {/* logo stuff */}
-      </div>
+      <JenkinsGuy/>
     </div>
   )
 }
