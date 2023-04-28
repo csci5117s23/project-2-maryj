@@ -15,8 +15,8 @@ const restaurantSchema = object({
     userId: string().required(),
     placeId: string().required(),
     name: string().required(),
-    starred: string().required().default("none"),
-    liked: string().required().default("none"),
+    starred: boolean().required().default(false),
+    liked: boolean().required().default(false),
     favoriteItems: array().of(string()).required().default([]),
 
     itemsTried: array().of(object({
