@@ -5,20 +5,20 @@ import { useAuth } from '@clerk/nextjs';
 import SignInPage from './signin';
 import { useEffect, useState } from 'react';
 import { useRouter } from "next/router";
-
+import ReflectionModal from '@/components/ReflectionModal';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function Trac() {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
-  const [filter, setFilter] = useState<string>('Home');
+  const [filter, setFilter] = useState<string>('Trac');
   const router = useRouter();
 
   useEffect(() => {
     if (router.query.filter && router.query.filter !== filter) {
       setFilter(router.query.filter as string);
     }
-  }, [filter, router.query.filter]);
+  }, [filter, router]);
 
   if (!userId) {
     return <SignInPage />
@@ -27,7 +27,12 @@ export default function Home() {
   return (
     <>
       <Header/>
+<<<<<<< Updated upstream
+=======
+      <ReflectionModal isVisible={false}/>
+>>>>>>> Stashed changes
       <CardContainer filter={filter}/>
+      <ReflectionModal isVisible={true} resutaurantId={''} itemName={''} />
     </>
   )
 }

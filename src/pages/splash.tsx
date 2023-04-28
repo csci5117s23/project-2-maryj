@@ -1,4 +1,4 @@
-import style from '@/styles/splash.module.css';
+import style from '@/styles/Splash.module.css';
 import { SignIn } from "@clerk/clerk-react";
 import { useEffect, useState } from "react"
 import { useAuth } from '@clerk/nextjs';

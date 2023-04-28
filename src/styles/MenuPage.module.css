@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: 0 2em;
+}
+
+.title {
+  color: var(--salmon);
+  font-size: 36px;
+  font-weight: bold;
+  margin: 0 0 0.25em 0;
+}
+
+.image {
+  /* FIXME: refactor image into its own component */
+  margin: 0.5em 0;
+}
+
+.input {
+  margin: 0.5em 0;
+}

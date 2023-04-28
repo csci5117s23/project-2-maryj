@@ -6,6 +6,7 @@
   --salmon: #EA7153;
   --mist: #C7B9B6;
   --lemon: #E4DE84;
+  --curd: #B8B151;
   --cream: #EBECC2;
   --pale: #E9E9E9;
   --obsidian: #2D3235;
@@ -28,4 +29,19 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.quill {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.ql-toolbar {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.ql-container {
+  flex: 1;
 }

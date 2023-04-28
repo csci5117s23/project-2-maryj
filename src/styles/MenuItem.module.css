@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container > h3 {
+    font-family: 'Inconsolata';
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.icon, .star {
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.icon {
+    color: var(--mist);
+}
+
+.icon:hover {
+    color: var(--salmon);
+}
+
+.star:hover {
+    color: var(--curd);
+}
+
+.star  {
+    color: var(--mist);
+}

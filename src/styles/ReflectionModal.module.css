@@ -1,0 +1,92 @@
+.blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  height: 50%;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  resize: both;
+}
+
+.camera-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  height: 80vh;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.camera, .save {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  gap: 4px;
+}
+
+.camera {
+  background: white;
+  border: 1px solid #EA7153;
+  color: #EA7153;
+}
+
+.camera:hover {
+  background: #EA7153;
+  border: 1px solid #EA7153;
+  color: white;
+}
+
+.save {
+  background: #EA7153;
+  border: 1px solid #EA7153;
+  color: white;
+}
+
+.save:hover {
+  background: white;
+  color: #EA7153;
+  border: 1px solid #EA7153;
+}
+
+.close {
+  cursor: pointer;
+}
