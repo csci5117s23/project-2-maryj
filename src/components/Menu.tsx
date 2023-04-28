@@ -84,6 +84,7 @@ export default function Menu({ restaurant }: MenuProps) {
                         return (
                             <MenuItem 
                                 key={item.title}
+                                placeId={restaurant.placeId}
                                 title={item.title}
                                 liked={item.liked}
                                 reflection={item.reflection}
@@ -121,6 +122,7 @@ export default function Menu({ restaurant }: MenuProps) {
                         return (
                             <MenuItem 
                                 key={item.title}
+                                placeId={restaurant.placeId}
                                 title={item.title}
                                 liked={item.liked}
                                 reflection={item.reflection}
