@@ -122,15 +122,26 @@ app.post('/add-item/:restaurantId', async (req, res) => {
 // Make an endpoint that takes in a restaurant id, item name, and reflection and updates it
 app.post('/update-item/:restaurantId', async (req, res) => {
     const conn = await Datastore.open();
-    const restaurant = await conn.getOne('restaurant', req.params.restaurantId);
-    const item = restaurant.itemsTried.find((item) => item.name === req.body.name);
-    if (req.body.reflect) {
-        item.reflection = req.body.reflection;
+    const userId = req.body.userId;
+    const placeId = req.params.restaurantId;
+    const cursor = conn.getMany('restaurant', {filter: {userId: userId, placeId: placeId}});
+    let restaurant = null;
+    await cursor.forEach((item) => {
+        restaurant = item;
+        return;
+    });
+
+    if (restaurant === null) {
+        res.status(404).send("Restaurant not found");
+    }
+
+    if (req.body.reflection) {
+        restaurant.reflection = req.body.reflection;
     }
     if (req.body.liked) {
-        item.liked = req.body.liked;
+        restaurant.liked = req.body.liked;
     }
-    await conn.updateOne('restaurant', req.params.restaurantId, restaurant);
+    await conn.updateOne('restaurant', restaurant._id, restaurant);
     res.json(restaurant);
 });
 
