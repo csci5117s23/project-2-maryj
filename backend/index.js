@@ -83,15 +83,9 @@ app.get('/get-image/:id', async (req, res) => {
     const cursor = conn.getMany('image', {filter: {id: req.params.id}})
     await cursor.forEach((image) => {
         const imageData = Buffer.from(image.image, 'base64');
-        console.log("length", imageData.length);
-        // res.writeHead(200, {
-        //     'Content-Length': imageData.length
-        // });
-        console.log("length post head", imageData.length);
-        console.log(res);
-        // console.log(imageData.);
-
-        res.write(imageData.data);
+        res.set('Content-Type', 'image/jpeg');
+        res.set('Content-Length', imageData.length);
+        res.write(imageData, 'buffer');
     });
     res.end();
 });
