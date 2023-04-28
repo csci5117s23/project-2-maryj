@@ -14,6 +14,7 @@ export interface ReflectionModalProps {
 
 export default function ReflectionModal({ isVisible, resutaurantId, itemName }: ReflectionModalProps) {
   const [value, setValue] = useState("");
+  const [seeable, setSeeable]: [boolean, Function] = useState(isVisible);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const [cameraStatus, setCameraStatus]: [boolean, Function] = useState<boolean>(false);
 
@@ -44,12 +45,12 @@ export default function ReflectionModal({ isVisible, resutaurantId, itemName }: 
 
   return (
     <>
-      {isVisible ? (
-        <div className={styles.blur}>
-          <div className={styles.container}>
+      {seeable ? (
+        <div className={styles.blur} onClick={e => setSeeable(!seeable)}>
+          <div className={styles.container} onClick={e => e.stopPropagation()}>
             <div className={styles.header}>
               <h3>Reflection</h3>
-              <MdClose size="25px" />
+              <MdClose className={styles.close} size="25px" onClick={e => setSeeable(!seeable)}/>
             </div>
             <QuillWrapper value={value} onChange={handleChange} />
             <div className={styles.buttons}>
@@ -70,16 +71,20 @@ export default function ReflectionModal({ isVisible, resutaurantId, itemName }: 
               </button>
             </div>
           </div>
-          {cameraStatus && 
-            <div className={styles['camera-modal']}>
-                <Camera
-                  onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }
-                />
-            </div>}
         </div>
       ) : (
         <></>
       )}
+      {cameraStatus && 
+      <div className={styles.blur} onClick={e => setCameraStatus(!cameraStatus)}>
+        <div className={styles['camera-modal']} onClick={e => e.stopPropagation()}>
+            <Camera
+              onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }
+              onCameraStart={() => setSeeable(!seeable)}
+            />
+        </div>
+      </div>
+      }
     </>
   );
 }
