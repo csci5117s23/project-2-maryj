@@ -6,7 +6,6 @@ import { useAuth } from '@clerk/nextjs';
 import Menu from '@/components/Menu';
 import SignInPage from '../signin';
 import ImageCustom from '@/components/Image';
-import Input from '@/components/Input';
 
 
 interface RestoProps {
@@ -65,7 +64,7 @@ export default function Resto() {
     const dummyRestaurant: RestaurantInfo = {
         name: "Raising Cane's",
         image: "https://i.imgur.com/tB3WB6m.jpeg",
-        starred: true,
+        starred: true
     }
 
     return (
@@ -81,11 +80,13 @@ export default function Resto() {
                         isResto={true}
                     />
                 </div>
-                <Input
-                    placeholder={"Add item here..."}
-                    id={"add-item"}
-                    name={"add-item"}
-                />
+                <form action="/" method="post">
+                    <input
+                        className={styles.input}
+                        placeholder={"Add item here..."}
+                        type="text" id={"add-item"} name={"add-item"}
+                    />
+                </form>
                 <Menu restaurant={restaurant} />
             </div>
         </>
