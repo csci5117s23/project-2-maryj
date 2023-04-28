@@ -29,6 +29,7 @@ export default function Resto() {
     // TODO: i forgot what type this is formally
     function addMenuItem(event : any): void {
         event.preventDefault();
+        console.log("Adding Menu Item...");
 
         const menuItem = {
             name: newItemName,
@@ -36,6 +37,8 @@ export default function Resto() {
             reflection: ""
         }
         restaurant.itemsTried = [...restaurant.itemsTried, menuItem]
+        console.log("items Tried:");
+        console.log(restaurant.itemsTried);
     }
 
     console.log(userId);

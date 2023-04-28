@@ -8,34 +8,34 @@ interface MenuProps {
 }
 
 interface MenuItem {
-    title: string;
+    name: string;
     liked: boolean;
     reflection: string;
 }
 
 const dummyMenuItems: MenuItem[] = [
     {
-        title: 'Spaghetti Carbonara',
+        name: 'Spaghetti Carbonara',
         liked: true,
         reflection: ""
     },
     {
-        title: 'Chicken Alfredo',
+        name: 'Chicken Alfredo',
         liked: false,
         reflection: ""
     },
     {
-        title: 'Margherita Pizza',
+        name: 'Margherita Pizza',
         liked: true,
         reflection: ""
     },
     {
-        title: 'Caesar Salad',
+        name: 'Caesar Salad',
         liked: false,
         reflection: ""
     },
     {
-        title: 'Grilled Salmon',
+        name: 'Grilled Salmon',
         liked: true,
         reflection: ""
     }
@@ -83,8 +83,8 @@ export default function Menu({ restaurant }: MenuProps) {
                     {menuItems.filter(item => item.liked).map(item => {
                         return (
                             <MenuItem 
-                                key={item.title}
-                                title={item.title}
+                                key={item.name}
+                                title={item.name}
                                 liked={item.liked}
                                 reflection={item.reflection}
                             />
@@ -120,8 +120,8 @@ export default function Menu({ restaurant }: MenuProps) {
                     {menuItems.filter(item => !item.liked).map(item => {
                         return (
                             <MenuItem 
-                                key={item.title}
-                                title={item.title}
+                                key={item.name}
+                                title={item.name}
                                 liked={item.liked}
                                 reflection={item.reflection}
                             />
