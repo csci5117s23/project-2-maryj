@@ -57,6 +57,7 @@ app.use("/restaurants", (req, res, next) => {
 // add an endpoint to get restaurant data for a userId
 app.get('/restaurants/:userId', async (req, res) => {
     const userId = req.params.userId; 
+    console.log(typeof userId)
     const conn = await Datastore.open();
     conn.getMany('restaurant', {filter: {userId: userId}}).json(res)
 });
@@ -68,13 +69,21 @@ app.post('/restaurants/:userId', async (req, res) => {
     res.json(restaurant);
 });
 
-// add an endpoint to get a resturant by user id and place id
-app.get('/get-restaurant/:userId/:placeId', async (req, res) => {
-    const userId = req.params.userId;
-    const placeId = req.params.placeId;
-    const conn = await Datastore.open();
-    const restaurant = await conn.getOne('restaurant', {filter: {userId: userId, placeId: placeId}});
-    res.json(restaurant);
+// add an endpoint to get a restaurant by user id and place id
+app.get('/get-restaurant', async (req, res) => {
+    try {
+        console.log(req)
+        const userId = req.query.userId;
+        console.log(typeof userId)
+        const placeId = req.query.placeId;
+        // console.log(uid, pid);
+        const conn = await Datastore.open();
+        conn.getMany('restaurant', {filter: {userId: userId}}).json(res);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
 });
 
 // Write me a codehooks endpoint that takes a image id and returns the image

@@ -23,6 +23,7 @@ export default function Resto() {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
     const [restaurant, setRestaurant]: [any, Function] = useState(undefined);
     const router = useRouter();
+    const { placeId } = router.query;
 
     console.log(userId);
 
@@ -39,11 +40,11 @@ export default function Resto() {
 
             const restaurantID = router.query.id;
             const token = await getToken({ template: "codehooks" });
-            const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_ENDPOINT + `/restaurant/${restaurantID}`, {
-                method: "GET",
+            const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_ENDPOINT + `/restaurants/${restaurantID}?placeId=${placeId}`, {
+                method: "POST",
                 headers: {
                     "Authorization": "Bearer " + token
-                }
+                },
             });
 
             // Bad Auth
