@@ -7,11 +7,14 @@ import {app, Datastore} from 'codehooks-js'
 import {crudlify} from 'codehooks-crudlify'
 import { object, string, array, number, boolean } from 'yup'
 import jwtDecode from 'jwt-decode'
+import { platform } from 'os';
 
+const backend_base = "http://localhost:3000/dev";
 
 const restaurantSchema = object({
     userId: string().required(),
     placeId: string().required(),
+    name: string().required(),
     starred: string().required().default("none"),
     liked: string().required().default("none"),
     favoriteItems: array().of(string()).required().default([]),
@@ -45,37 +48,23 @@ const userAuth = async (req, res, next) => {
 }
 app.use(userAuth)
 
-app.use("/restaurants", (req, res, next) => {
-    if (req.method === "POST") {
-        req.body.userId = req.user_token.sub
-    } else if (req.method === "GET") {
-        req.query.userId = req.user_token.sub
-    }
-    next();
-});
-
-// add an endpoint to get restaurant data for a userId
-app.get('/restaurants/:userId', async (req, res) => {
-    const userId = req.params.userId; 
-    const conn = await Datastore.open();
-    conn.getMany('restaurant', {filter: {userId: userId}}).json(res)
-});
-
-// add an endpoint to add a restaurant to a user's list
-app.post('/restaurants/:userId', async (req, res) => {
-    const conn = await Datastore.open();
-    const restaurant = await conn.insertOne('restaurant', req.body);
-    res.json(restaurant);
-});
+// app.use("/restaurants", (req, res, next) => {
+//     if (req.method === "POST") {
+//         req.body.userId = req.user_token.sub
+//     } else if (req.method === "GET") {
+//         req.query.userId = req.user_token.sub
+//     }
+//     next();
+// });
 
 // add an endpoint to get a resturant by user id and place id
-app.get('/get-restaurant/:userId/:placeId', async (req, res) => {
-    const userId = req.params.userId;
-    const placeId = req.params.placeId;
-    const conn = await Datastore.open();
-    const restaurant = await conn.getOne('restaurant', {filter: {userId: userId, placeId: placeId}});
-    res.json(restaurant);
-});
+// app.get('/get-restaurant/:userId/:placeId', async (req, res) => {
+//     const userId = req.params.userId;
+//     const placeId = req.params.placeId;
+//     const conn = await Datastore.open();
+//     const restaurant = await conn.getOne('restaurant', {filter: {userId: userId, placeId: placeId}});
+//     res.json(restaurant);
+// });
 
 // Write me a codehooks endpoint that takes a image id and returns the image
 app.get('/get-image/:id', async (req, res) => {
@@ -132,12 +121,21 @@ app.post('/update-item/:restaurantId', async (req, res) => {
     res.json(restaurant);
 });
 
-app.get("/google", async (req, res) => {
+// Endpoint that returns all restaurants for user, place
+app.get('/restaurants', async (req, res) => {
+    const conn = await Datastore.open();
+    const restaurants = conn.getMany('restaurant', {filter: {userId: req.query.userId, placeId: req.query.placeId}});
+    res.json(restaurants);
+});
+
+app.post("/google", async (req, res) => {
     // TODO: get this from the environment
     const google_api_key = "AIzaSyCTYBU_S3FSdZ6N_0Mxrz5ldKzoIh1qrfo";
 
-    let lat = req.query.lat;
-    let lng = req.query.lon;
+    let lat = req.body.lat.toString();
+    let lng = req.body.lon.toString();
+    let userId = req.body.userId;
+    console.log(lat, lng, userId)
 
     let google_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurant&location=";
     google_url += lat + "," + lng + "&radius=1000&key=";
@@ -153,7 +151,49 @@ app.get("/google", async (req, res) => {
         },
     });
     const data = await response.json();
-    // console.log(data);
+
+    // Add restaurants to the database
+    const restaurantsAdded = [];
+    const conn = await Datastore.open();
+    for (const restaurant of data.results) {
+        // console.log(restaurant.name)
+        // if (await restaurantExists(userId, restaurant.place_id)) {
+        //     console.log("Restaurant already exists")
+        //     continue;
+        // }
+        let rests = await fetch(backend_base + "/restaurants?userId=" + userId + "&placeId=" + restaurant.place_id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        rests = await rests.json();
+        // console.log(rests)
+
+        // if (rest.length > 0) {
+        //     console.log("Restaurant already exists")
+        //     continue;
+        // }
+        let newRestaurant = {
+            userId: userId,
+            placeId: restaurant.place_id,
+            name: restaurant.name,
+        }
+        // console.log(newRestaurant)
+        const doc = await conn.insertOne('restaurant', newRestaurant);
+        // console.log(doc)
+        restaurantsAdded.push(doc);
+    }
+    // console.log(restaurantsAdded)
+    
+    // res.json(restaurantsAdded);
+    res.json(restaurantsAdded);
+});
+
+// Delete all restaurants from the database (use carefully)
+app.delete("/clear", async (req, res) => {
+    const conn = await Datastore.open();
+    const data = await conn.removeMany('restaurant', {filter: {userId: req.body.userId}});
     res.json(data);
 });
 
