@@ -22,7 +22,19 @@ export default function Header() {
     <div className={styles.header}>
       <div className={styles.links}>
         {links.map((link, index) => (
-          <div key={index} onClick={e => { router.replace({query: {...router.query, filter: link.text}}) }} className={styles.link}>
+          <div key={index} onClick={e => { 
+            if (router.pathname !== '/trac') {
+              router.push({
+                pathname: '/trac',
+                query: { filter: link.text },
+              });
+            } else {
+              router.replace({
+                pathname: router.pathname,
+                query: { ...router.query, filter: link.text },
+              });
+            }
+          }} className={styles.link}>
             {link.text}{' '}
             <div className={styles.icon}>{link.icon}</div>
           </div>
