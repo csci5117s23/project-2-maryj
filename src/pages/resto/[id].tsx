@@ -38,8 +38,6 @@ export default function Resto() {
                 return;
             }
 
-            console.log(userId)
-
             const placeId = router.query.id;
             const token = await getToken({ template: "codehooks" });
             const response = await fetch("https://backend-qsum.api.codehooks.io/dev/get-restaurant", {
@@ -56,7 +54,7 @@ export default function Resto() {
 
             // Bad Auth
             if (!response.ok) {
-                // router.push("/404");
+                router.push("/404");
                 return;
             }
             
@@ -89,6 +87,7 @@ export default function Resto() {
                     />
                 </div>
                 <Input
+                    placeId={router.query.id as string}
                     placeholder={"Add item here..."}
                     id={"add-item"}
                     name={"add-item"}

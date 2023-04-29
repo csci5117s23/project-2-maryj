@@ -8,42 +8,42 @@ interface MenuProps {
 }
 
 interface MenuItem {
-    title: string;
+    name: string;
     liked: boolean;
     reflection: string;
 }
 
 const dummyMenuItems: MenuItem[] = [
     {
-        title: 'Spaghetti Carbonara',
+        name: 'Spaghetti Carbonara',
         liked: true,
         reflection: ""
     },
     {
-        title: 'Chicken Alfredo',
+        name: 'Chicken Alfredo',
         liked: false,
         reflection: ""
     },
     {
-        title: 'Margherita Pizza',
+        name: 'Margherita Pizza',
         liked: true,
         reflection: ""
     },
     {
-        title: 'Caesar Salad',
+        name: 'Caesar Salad',
         liked: false,
         reflection: ""
     },
     {
-        title: 'Grilled Salmon',
+        name: 'Grilled Salmon',
         liked: true,
         reflection: ""
     }
 ];
 
 export default function Menu({ restaurant }: MenuProps) {
-    const [viewMenuItems, setViewMenuItems]: [boolean, Function] = useState<boolean>(false);
-    const [viewLikedItems, setViewLikedItems]: [boolean, Function] = useState<boolean>(false);
+    const [viewMenuItems, setViewMenuItems]: [boolean, Function] = useState<boolean>(true);
+    const [viewLikedItems, setViewLikedItems]: [boolean, Function] = useState<boolean>(true);
     const liked = useRef() as MutableRefObject<HTMLDivElement>;
     const menu = useRef() as MutableRefObject<HTMLDivElement>;
 
@@ -75,7 +75,7 @@ export default function Menu({ restaurant }: MenuProps) {
                     ref={liked}
                     className={styles['accordion-items']}
                     style={
-                        viewLikedItems
+                        viewLikedItems && liked.current
                         ? { height: liked.current.scrollHeight }
                         : { height: "0px" }
                     }
@@ -83,9 +83,9 @@ export default function Menu({ restaurant }: MenuProps) {
                     {menuItems.filter(item => item.liked).map(item => {
                         return (
                             <MenuItem 
-                                key={item.title}
+                                key={item.name}
                                 placeId={restaurant.placeId}
-                                title={item.title}
+                                title={item.name}
                                 liked={item.liked}
                                 reflection={item.reflection}
                             />
@@ -113,7 +113,7 @@ export default function Menu({ restaurant }: MenuProps) {
                     ref={menu}
                     className={styles['accordion-items']}
                     style={
-                        viewMenuItems
+                        viewMenuItems && menu.current
                         ? { height: menu.current.scrollHeight }
                         : { height: "0px" }
                     }
@@ -121,9 +121,9 @@ export default function Menu({ restaurant }: MenuProps) {
                     {menuItems.filter(item => !item.liked).map(item => {
                         return (
                             <MenuItem 
-                                key={item.title}
+                                key={item.name}
                                 placeId={restaurant.placeId}
-                                title={item.title}
+                                title={item.name}
                                 liked={item.liked}
                                 reflection={item.reflection}
                             />

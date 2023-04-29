@@ -136,11 +136,27 @@ app.get('/hello', async (req, res) => {
 });
 
 // Make an endpoint that takes in a restaurant id and adds a new item to it
-app.post('/add-item/:restaurantId', async (req, res) => {
+app.post('/add-item/:placeId', async (req, res) => {
+    const userId = req.body.userId;
+    const placeId = req.params.placeId;
     const conn = await Datastore.open();
-    const restaurant = await conn.getOne('restaurant', req.params.restaurantId);
-    restaurant.itemsTried.push(req.body);
-    await conn.updateOne('restaurant', req.params.restaurantId, restaurant);
+    const cursor = conn.getMany('restaurant', {filter: {userId: userId, placeId: placeId}});
+    let restaurant = null;
+    await cursor.forEach((item) => {
+        restaurant = item;
+        return;
+    });
+
+    if (restaurant === null) {
+        res.status(404).send("Restaurant not found");
+    } 
+
+    restaurant.itemsTried.push({
+        name: req.body.name,
+        liked: false,
+        reflection: "",
+    });
+    await conn.updateOne('restaurant', restaurant._id, restaurant);
     res.json(restaurant);
 });
 
