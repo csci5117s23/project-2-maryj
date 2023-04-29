@@ -25,8 +25,8 @@ export default function ImageCustom({ url, isStarred, title, isResto = false, up
         alt={`image of ${title}`}
         fill
         sizes="(max-width: 768px) 100vw,
-        (max-width: 1200px) 50vw,
-        33vw"
+               (max-width: 1200px) 50vw,
+               33vw"
         priority
       />
       {isStarred ?

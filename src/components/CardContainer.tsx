@@ -117,10 +117,7 @@ export default function CardContainer({ filter }: CardContainerProps) {
                         'Access-Control-Allow-Origin': '*'
                     },
                     body: JSON.stringify({
-                        lat: lat,
-                        lon: lon,
                         userId: userId,
-                        starred: true,
                         filter: filter
                     })
                 });
@@ -133,10 +130,7 @@ export default function CardContainer({ filter }: CardContainerProps) {
                         'Access-Control-Allow-Origin': '*'
                     },
                     body: JSON.stringify({
-                        lat: lat,
-                        lon: lon,
                         userId: userId,
-                        liked: true,
                         filter: filter
                     })
                 });

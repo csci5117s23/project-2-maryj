@@ -84,6 +84,7 @@ export default function Resto() {
                         isStarred={dummyRestaurant.starred}
                         title={dummyRestaurant.image}
                         isResto={true}
+                        update={() => {}}
                     />
                 </div>
                 <Input
