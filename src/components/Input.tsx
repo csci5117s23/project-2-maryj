@@ -7,14 +7,18 @@ interface InputProps {
   placeholder: string;
   id: string;
   name: string;
+  addMenuItem: Function;
 }
 
-export default function Input({ placeId, placeholder, id, name }: InputProps) {
+export default function Input({ placeId, placeholder, id, name, addMenuItem }: InputProps) {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    addMenuItem(inputValue);
+
     const token = await getToken({ template: "codehooks" });
     const response = await fetch(
       `https://backend-qsum.api.codehooks.io/dev/add-item/${placeId}`,

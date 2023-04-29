@@ -4,7 +4,6 @@ import Header from '@/components/Header';
 import { useRouter } from 'next/router';
 import { useAuth } from '@clerk/nextjs';
 import Menu from '@/components/Menu';
-import SignInPage from '../signin';
 import ImageCustom from '@/components/Image';
 import Input from '@/components/Input';
 
@@ -92,6 +91,15 @@ export default function Resto() {
                     placeholder={"Add item here..."}
                     id={"add-item"}
                     name={"add-item"}
+                    addMenuItem={(item: string) => {
+                        const restaurantCopy = { ...restaurant };
+                        restaurantCopy.itemsTried.push({
+                            name: item,
+                            liked: false,
+                            reflection: "",
+                        });
+                        setRestaurant(restaurantCopy);
+                    }}
                 />
                 <Menu restaurant={restaurant} />
             </div>

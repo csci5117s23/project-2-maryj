@@ -1,5 +1,5 @@
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { useState, useRef, MutableRefObject } from "react";
+import { useState, useRef, useEffect, MutableRefObject } from "react";
 import styles from '@/styles/Menu.module.css';
 import MenuItem from "./MenuItem";
 
@@ -47,11 +47,11 @@ export default function Menu({ restaurant }: MenuProps) {
     const liked = useRef() as MutableRefObject<HTMLDivElement>;
     const menu = useRef() as MutableRefObject<HTMLDivElement>;
 
-    if (restaurant === undefined) {
-        return null;
-    }
-
-    const menuItems: MenuItem[] = restaurant.itemsTried;
+    const [menuItems, setMenuItems]: [MenuItem[], Function] = useState<MenuItem[]>([]);
+    useEffect(() => {
+        console.log("restaurant", restaurant);
+        restaurant && restaurant.itemsTried && setMenuItems(restaurant.itemsTried);
+    }, [restaurant]);
 
     return (
         <div className={styles.container}>
