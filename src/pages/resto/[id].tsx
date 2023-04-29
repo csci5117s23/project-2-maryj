@@ -38,18 +38,25 @@ export default function Resto() {
                 return;
             }
 
-            const restaurantID = router.query.id;
+            console.log(userId)
+
+            const placeId = router.query.id;
             const token = await getToken({ template: "codehooks" });
-            const response = await fetch('https://' + process.env.NEXT_PUBLIC_API_ENDPOINT + `/restaurant/${restaurantID}`, {
-                method: "GET",
+            const response = await fetch("https://backend-qsum.api.codehooks.io/dev/get-restaurant", {
+                method: "POST",
                 headers: {
-                    "Authorization": "Bearer " + token
-                }
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    placeId: placeId,
+                    userId: userId, 
+                }),
             });
 
             // Bad Auth
             if (!response.ok) {
-                router.push("/404");
+                // router.push("/404");
                 return;
             }
             

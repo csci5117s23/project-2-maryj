@@ -43,7 +43,7 @@ const ReactQuill = dynamic(
 
               console.log("Trying upload");
               const token = await getToken({ template: "codehooks" });
-              fetch(" https://backend-qsum.api.codehooks.io/dev/upload-image", {
+              fetch("https://backend-qsum.api.codehooks.io/dev/upload-image", {
                 method: "POST",
                 headers: {
                   "Authorization": "Bearer " + token,
