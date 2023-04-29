@@ -60,6 +60,31 @@ app.use(userAuth)
 //     next();
 // });
 
+app.post("/update-restaurant", async (req, res) => {
+    const conn = await Datastore.open();
+    const restaurant = await conn.updateMany('restaurant', req.body, {filter: {userId: req.body.userId, placeId: req.body.placeId}});
+    res.json(restaurant);
+});
+
+app.post("/get-restaurants", async (req, res) => {
+    const conn = await Datastore.open();
+    if (req.body.filter === "Starred") {
+        const cursor = conn.getMany('restaurant', {filter: {userId: req.body.userId, starred: true}});
+        const restaurants = [];
+        await cursor.forEach((item) => {
+            restaurants.push(item);
+        });
+        res.json(restaurants);
+    } else { // if (req.body.filter === "liked") {
+        const cursor = conn.getMany('restaurant', {filter: {userId: req.body.userId, liked: true}});
+        const restaurants = [];
+        await cursor.forEach((item) => {
+            restaurants.push(item);
+        });
+        res.json(restaurants);
+    }
+});
+
 // Write the above code but switch to using a post request and a json body for the user and place id
 app.post('/get-restaurant', async (req, res) => {
     const userId = req.body.userId;
