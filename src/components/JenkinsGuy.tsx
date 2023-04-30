@@ -15,11 +15,9 @@ export default function JenkinsGuy() {
 
 
   async function getFunFact() {
-    // const response = await fetch('/api/facts');
-    // const factResponse = await response.json();
-    // const fact = factResponse.fact;
-    //this is only a mock so we don't run out of the max api calls
-    const fact = "Over the course of one year, a coffee tree only produces about 1.5 pounds of coffee";
+    const response = await fetch('/api/facts');
+    const factResponse = await response.json();
+    const fact = factResponse.fact;
     setFunFact(fact);
     setIsOpen(true);
   }

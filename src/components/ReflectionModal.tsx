@@ -22,7 +22,7 @@ export default function ReflectionModal({
   startingReflection,
 }: ReflectionModalProps) {
   const [value, setValue] = useState(startingReflection);
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { userId, getToken } = useAuth();
   const [cameraStatus, setCameraStatus]: [boolean, Function] =
     useState<boolean>(false);
 

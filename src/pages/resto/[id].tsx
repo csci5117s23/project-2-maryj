@@ -7,19 +7,8 @@ import Menu from '@/components/Menu';
 import ImageCustom from '@/components/Image';
 import Input from '@/components/Input';
 
-interface RestoProps {
-    id: number;
-}
-
-// TODO: delete this once backend exists and fetch data
-interface RestaurantInfo {
-    image: string,
-    name: string,
-    starred: boolean,
-}
-
 export default function Resto() {
-    const { isLoaded, userId, sessionId, getToken } = useAuth();
+    const { isLoaded, userId, getToken } = useAuth();
     const [restaurant, setRestaurant]: [any, Function] = useState(null);
     
     const router = useRouter();
@@ -96,9 +85,4 @@ export default function Resto() {
             </div>
         </>
     );
-}
-
-export async function getServerSideProps(context: any) {
-    const { id } = context.params;
-    return { props: { id } };
 }

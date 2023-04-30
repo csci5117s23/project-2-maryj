@@ -1,7 +1,6 @@
 import styles from '@/styles/Image.module.css';
-import Image, { ImageProps } from "next/image";
+import Image from "next/image";
 import { MdStar, MdStarBorder } from "react-icons/md";
-import { useState } from 'react';
 
 interface ImgProps {
   url : string,
