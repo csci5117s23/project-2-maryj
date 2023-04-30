@@ -39,26 +39,30 @@ const userAuth = async (req, res, next) => {
     try {
         const { authorization } = req.headers;
         if (authorization) {
-        const token = authorization.replace('Bearer ','');
-        // NOTE this doesn't validate, but we don't need it to. codehooks is doing that for us.
-        const token_parsed = jwtDecode(token);
-        req.user_token = token_parsed;
+            const token = authorization.replace('Bearer ','');
+            // NOTE this doesn't validate, but we don't need it to. codehooks is doing that for us.
+            const token_parsed = jwtDecode(token);
+            req.user_token = token_parsed;
         }
         next();
     } catch (error) {
         next(error);
     } 
 }
-app.use(userAuth)
 
-// app.use("/restaurants", (req, res, next) => {
-//     if (req.method === "POST") {
-//         req.body.userId = req.user_token.sub
-//     } else if (req.method === "GET") {
-//         req.query.userId = req.user_token.sub
-//     }
-//     next();
-// });
+// Bypass auth for images
+app.use((req, res, next) => {
+    if (req.path.split("/")[2] === "get-image") {
+        next();
+    } else {
+        userAuth(req, res, next);
+    }
+});
+
+app.auth('/get-image/*', (req, res, next) => {
+    next();
+});
+  
 
 app.post("/update-restaurant", async (req, res) => {
     const conn = await Datastore.open();
@@ -85,7 +89,6 @@ app.post("/get-restaurants", async (req, res) => {
     }
 });
 
-// Write the above code but switch to using a post request and a json body for the user and place id
 app.post('/get-restaurant', async (req, res) => {
     const userId = req.body.userId;
     const placeId = req.body.placeId;
@@ -104,7 +107,6 @@ app.post('/get-restaurant', async (req, res) => {
     }
 });
 
-// Write me a codehooks endpoint that takes a image id and returns the image
 app.get('/get-image/:id', async (req, res) => {
     const conn = await Datastore.open();
     const cursor = conn.getMany('image', {filter: {id: req.params.id}})
@@ -116,17 +118,15 @@ app.get('/get-image/:id', async (req, res) => {
     });
     res.end();
 });
-  
-// Write me a codehooks endpoint that takes in a image and uploads it to the datastore
+
 app.post('/upload-image', async (req, res) => {
     const conn = await Datastore.open();
     // Assign the image a random id
     req.body.id = Math.random().toString(36).substring(7);
     // upload the image to the datastore with the id
     // Convert the image to b64 before adding it to the database
-    console.log(req.body);
     const image = await conn.insertOne('image', req.body);
-    res.json({url: `${req.headers.host}/dev/get-image/${image.id}`});
+    res.json({url: `https://${req.headers.host}/dev/get-image/${image.id}`});
 });
 
 // Sanity check
@@ -135,7 +135,6 @@ app.get('/hello', async (req, res) => {
     res.json({"message": "Hello local world!"});
 });
 
-// Make an endpoint that takes in a restaurant id and adds a new item to it
 app.post('/add-item/:placeId', async (req, res) => {
     const userId = req.body.userId;
     const placeId = req.params.placeId;
@@ -149,7 +148,9 @@ app.post('/add-item/:placeId', async (req, res) => {
 
     if (restaurant === null) {
         res.status(404).send("Restaurant not found");
-    } 
+    }
+
+    if (!restaurant.itemsTried) restaurant.itemsTried = [];
 
     restaurant.itemsTried.push({
         name: req.body.name,
@@ -176,12 +177,14 @@ app.post('/update-item/:restaurantId', async (req, res) => {
         res.status(404).send("Restaurant not found");
     }
 
+    const item = restaurant.itemsTried.find((item) => item.name === req.body.name);
     if (req.body.reflection) {
-        restaurant.reflection = req.body.reflection;
+        item.reflection = req.body.reflection;
     }
     if (req.body.liked) {
-        restaurant.liked = req.body.liked;
+        item.liked = req.body.liked;
     }
+    
     await conn.updateOne('restaurant', restaurant._id, restaurant);
     res.json(restaurant);
 });
