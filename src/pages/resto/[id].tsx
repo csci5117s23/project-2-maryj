@@ -20,11 +20,9 @@ interface RestaurantInfo {
 }
 
 export default function Resto() {
-    const { isLoaded, userId, sessionId, getToken } = useAuth();
+    const { isLoaded, userId, getToken } = useAuth();
     const [restaurant, setRestaurant]: [any, Function] = useState(undefined);
     const router = useRouter();
-
-    console.log(userId);
 
     useEffect(() => {
         if (!isLoaded || !router.isReady) return;

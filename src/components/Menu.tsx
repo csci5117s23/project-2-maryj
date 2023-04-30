@@ -55,7 +55,6 @@ export default function Menu({ restaurant }: MenuProps) {
 
     const [menuItems, setMenuItems]: [MenuItem[], Function] = useState<MenuItem[]>([]);
     useEffect(() => {
-        console.log("restaurant", restaurant);
         restaurant && restaurant.itemsTried && setMenuItems(restaurant.itemsTried);
     }, [restaurant]);
 
@@ -64,10 +63,6 @@ export default function Menu({ restaurant }: MenuProps) {
         setModalTitle(title);
         setModalReflection(reflection);
         setIsReflectionVisible(true);
-    }
-
-    function assignKey(title: string) {
-        return title + Math.random().toString(36).substring(7);
     }
 
     return (
@@ -96,10 +91,10 @@ export default function Menu({ restaurant }: MenuProps) {
                         : { transform: "scaleY(0)"}
                     }
                 >
-                    {menuItems.filter(item => item.liked).map(item => {
+                    {menuItems.filter(item => item.liked).map((item, index) => {
                         return (
                             <MenuItem 
-                                key={assignKey(restaurant.name)}
+                                key={index}
                                 placeId={restaurant.placeId}
                                 title={item.name}
                                 liked={item.liked}
@@ -134,10 +129,10 @@ export default function Menu({ restaurant }: MenuProps) {
                         : { transform: "scaleY(0)"}
                     }
                 >
-                    {menuItems.filter(item => !item.liked).map(item => {
+                    {menuItems.filter(item => !item.liked).map((item, index) => {
                         return (
                             <MenuItem 
-                                key={assignKey(restaurant.name)}
+                                key={index}
                                 placeId={restaurant.placeId}
                                 title={item.name}
                                 liked={item.liked}
