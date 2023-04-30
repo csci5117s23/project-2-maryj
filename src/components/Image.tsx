@@ -21,7 +21,7 @@ export default function ImageCustom({ url, isStarred, title, isResto = false, up
     <div className={styles[isResto ? 'resto-container' : 'image-container']}>
       <Image
         className={styles[isResto ? 'image-resto' : 'image']}
-        src={photo_url}
+        src={url ? photo_url : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'}
         alt={`Loading...`}
         fill
         sizes="(max-width: 768px) 100vw,
