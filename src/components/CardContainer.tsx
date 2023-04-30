@@ -150,17 +150,18 @@ export default function CardContainer({ filter }: CardContainerProps) {
                 });
             }
             
-            const data = await response.json();
-            setCards(data.map((entry: any) => {
-                return {
-                    id: entry.placeId,
-                    title: entry.name,
-                    address: entry.address,
-                    image: entry.imageId,
-                    isLiked: entry.liked,
-                    isStarred: entry.starred
-                };
-            }))
+            response.json().then((data) => {
+                setCards(data.map((entry: any) => {
+                    return {
+                        id: entry.placeId,
+                        title: entry.name,
+                        address: entry.address,
+                        image: entry.imageId,
+                        isLiked: entry.liked,
+                        isStarred: entry.starred
+                    };
+                }));
+            }).catch((err) => {setCards([])});
         }
         
         getNearbyPlaces();
