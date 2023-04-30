@@ -1,4 +1,5 @@
-// This is still broken as heelllllll
+// Using vanilla javascript (not typescript) for compatability with react-quill
+// Conversion to typescript is technically possibly, not worth the dev time at this point
 
 import React, { useEffect, useMemo, useRef, forwardRef } from "react";
 import dynamic from "next/dynamic";
