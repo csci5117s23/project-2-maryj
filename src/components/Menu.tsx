@@ -1,5 +1,5 @@
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { useState, useRef, useEffect, MutableRefObject } from "react";
+import { useState, useEffect, MutableRefObject } from "react";
 import ReflectionModal from "./ReflectionModal";
 import styles from '@/styles/Menu.module.css';
 import MenuItem from "./MenuItem";
@@ -47,8 +47,6 @@ export default function Menu({ restaurant }: MenuProps) {
     const [viewMenuItems, setViewMenuItems]: [boolean, Function] = useState<boolean>(true);
     const [viewLikedItems, setViewLikedItems]: [boolean, Function] = useState<boolean>(true);
     const [isReflectionVisible, setIsReflectionVisible]: [boolean, Function] = useState<boolean>(false);
-    const liked = useRef() as MutableRefObject<HTMLDivElement>;
-    const menu = useRef() as MutableRefObject<HTMLDivElement>;
 
     const [modalPlaceId, setModalPlaceId]: [string, Function] = useState('');
     const [modalTitle, setModalTitle]: [string, Function]  = useState('');
@@ -91,7 +89,6 @@ export default function Menu({ restaurant }: MenuProps) {
                     }
                 </div>
                 <div 
-                    ref={liked}
                     className={styles['accordion-items']}
                     style={
                         viewLikedItems
@@ -130,7 +127,6 @@ export default function Menu({ restaurant }: MenuProps) {
                     }
                 </div>
                 <div 
-                    ref={menu}
                     className={styles['accordion-items']}
                     style={
                         viewMenuItems

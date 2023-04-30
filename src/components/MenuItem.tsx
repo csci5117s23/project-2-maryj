@@ -1,5 +1,5 @@
 import { MdEdit, MdStar, MdStarBorder } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "@/styles/MenuItem.module.css";
 import { useAuth } from "@clerk/nextjs";
 
@@ -19,7 +19,7 @@ export default function MenuItem({
   setModal
 }: MenuItemProps) {
   const [isLiked, setIsLiked]: [boolean, Function] = useState<boolean>(liked);
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { userId, getToken } = useAuth();
 
   const handleStar = () => {
     setIsLiked(!isLiked);
