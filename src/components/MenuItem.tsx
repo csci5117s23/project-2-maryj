@@ -1,7 +1,6 @@
 import { MdEdit, MdStar, MdStarBorder } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "@/styles/MenuItem.module.css";
-import ReflectionModal from "./ReflectionModal";
 import { useAuth } from "@clerk/nextjs";
 
 interface MenuItemProps {
@@ -9,6 +8,7 @@ interface MenuItemProps {
   title: string;
   liked: boolean;
   reflection: string;
+  setModal: Function;
 }
 
 export default function MenuItem({
@@ -16,11 +16,10 @@ export default function MenuItem({
   title,
   liked,
   reflection,
+  setModal
 }: MenuItemProps) {
-  const [isReflectionVisible, setIsReflectionVisible]: [boolean, Function] =
-    useState<boolean>(false);
   const [isLiked, setIsLiked]: [boolean, Function] = useState<boolean>(liked);
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { userId, getToken } = useAuth();
 
   const handleStar = () => {
     setIsLiked(!isLiked);
@@ -66,16 +65,9 @@ export default function MenuItem({
         <MdEdit
           className={styles.icon}
           size="25px"
-          onClick={() => setIsReflectionVisible(true)}
+          onClick={() => setModal(placeId, title, reflection)}
         />
       </div>
-      <ReflectionModal
-        isVisible={isReflectionVisible}
-        setIsVisible={setIsReflectionVisible}
-        placeId={placeId}
-        itemName={title}
-        startingReflection={reflection}
-      />
     </div>
   );
 }

@@ -28,10 +28,9 @@
     display: flex;
     flex-direction: column;
     padding: 0 0.25rem;
-    gap: 0.5rem;
-    height: 0;
-    overflow: hidden;
-    transition: height ease 0.25s;
+    gap: 0.5rem; 
+    transform-origin: top;
+    transition: transform 330ms ease-in-out;
 }
 
 .icons {

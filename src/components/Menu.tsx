@@ -1,7 +1,9 @@
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { useState, useRef, useEffect, MutableRefObject } from "react";
+import { useState, useEffect, MutableRefObject } from "react";
+import ReflectionModal from "./ReflectionModal";
 import styles from '@/styles/Menu.module.css';
 import MenuItem from "./MenuItem";
+
 
 interface MenuProps {
     restaurant: any;
@@ -44,14 +46,24 @@ const dummyMenuItems: MenuItem[] = [
 export default function Menu({ restaurant }: MenuProps) {
     const [viewMenuItems, setViewMenuItems]: [boolean, Function] = useState<boolean>(true);
     const [viewLikedItems, setViewLikedItems]: [boolean, Function] = useState<boolean>(true);
-    const liked = useRef() as MutableRefObject<HTMLDivElement>;
-    const menu = useRef() as MutableRefObject<HTMLDivElement>;
+    const [isReflectionVisible, setIsReflectionVisible]: [boolean, Function] = useState<boolean>(false);
+
+    const [modalPlaceId, setModalPlaceId]: [string, Function] = useState('');
+    const [modalTitle, setModalTitle]: [string, Function]  = useState('');
+    const [modalReflection, setModalReflection]: [string, Function]  = useState('');
+
 
     const [menuItems, setMenuItems]: [MenuItem[], Function] = useState<MenuItem[]>([]);
     useEffect(() => {
-        console.log("restaurant", restaurant);
         restaurant && restaurant.itemsTried && setMenuItems(restaurant.itemsTried);
     }, [restaurant]);
+
+    function setModal(placeId: string, title: string, reflection: string) {
+        setModalPlaceId(placeId);
+        setModalTitle(title);
+        setModalReflection(reflection);
+        setIsReflectionVisible(true);
+    }
 
     return (
         <div className={styles.container}>
@@ -72,22 +84,22 @@ export default function Menu({ restaurant }: MenuProps) {
                     }
                 </div>
                 <div 
-                    ref={liked}
                     className={styles['accordion-items']}
                     style={
-                        viewLikedItems && liked.current
-                        ? { height: liked.current.scrollHeight }
-                        : { height: "0px" }
+                        viewLikedItems
+                        ? { transform: "scaleY(1)" }
+                        : { transform: "scaleY(0)"}
                     }
                 >
-                    {menuItems.filter(item => item.liked).map(item => {
+                    {menuItems.filter(item => item.liked).map((item, index) => {
                         return (
                             <MenuItem 
-                                key={item.name}
+                                key={index}
                                 placeId={restaurant.placeId}
                                 title={item.name}
                                 liked={item.liked}
                                 reflection={item.reflection}
+                                setModal={setModal}
                             />
                         );
                     })}
@@ -110,27 +122,34 @@ export default function Menu({ restaurant }: MenuProps) {
                     }
                 </div>
                 <div 
-                    ref={menu}
                     className={styles['accordion-items']}
                     style={
-                        viewMenuItems && menu.current
-                        ? { height: menu.current.scrollHeight }
-                        : { height: "0px" }
+                        viewMenuItems
+                        ? { transform: "scaleY(1)" }
+                        : { transform: "scaleY(0)"}
                     }
                 >
-                    {menuItems.filter(item => !item.liked).map(item => {
+                    {menuItems.filter(item => !item.liked).map((item, index) => {
                         return (
                             <MenuItem 
-                                key={item.name}
+                                key={index}
                                 placeId={restaurant.placeId}
                                 title={item.name}
                                 liked={item.liked}
                                 reflection={item.reflection}
+                                setModal={setModal}
                             />
                         );
                     })}
                 </div>
             </div>
+            <ReflectionModal
+                isVisible={isReflectionVisible}
+                setIsVisible={setIsReflectionVisible}
+                placeId={modalPlaceId}
+                itemName={modalTitle}
+                startingReflection={modalReflection}
+            />
         </div>
     );
 }   
