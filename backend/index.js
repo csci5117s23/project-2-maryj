@@ -236,15 +236,19 @@ app.post("/google", async (req, res) => {
             userId: userId,
             placeId: restaurant.place_id,
             name: restaurant.name,
-            imageId: restaurant.photos[0].photo_reference,
             starred: false,
             liked: false,
             address: restaurant.formatted_address,
         }
+
+        if (restaurant.photos && restaurant.photos.length > 0) {
+            newRestaurant.imageId = restaurant.photos[0].photo_reference;
+        }
+
         // console.log(newRestaurant)
-        const doc = await conn.insertOne('restaurant', newRestaurant);
+        const doc = conn.insertOne('restaurant', newRestaurant);
         // console.log(doc)
-        restaurantsAdded.push(doc);
+        restaurantsAdded.push(newRestaurant);
     }
     // console.log(restaurantsAdded)
     

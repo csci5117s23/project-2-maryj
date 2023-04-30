@@ -35,10 +35,8 @@ export default function ReflectionModal({
   }
 
   async function handleTakePhoto(dataUri: any) {
-    console.log(dataUri);
     const base64Image = dataUri.split(",")[1];
 
-    console.log("Trying upload");
     const token = await getToken({ template: "codehooks" });
     const response = await fetch(
       "https://backend-qsum.api.codehooks.io/dev/upload-image",
