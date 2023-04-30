@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Camera from "react-html5-camera-photo";
+import Camera, { FACING_MODES } from "react-html5-camera-photo";
 import styles from "@/styles/ReflectionModal.module.css";
 import QuillWrapper from "@/components/QuillWrapper";
 import "react-html5-camera-photo/build/css/index.css";
@@ -120,6 +120,7 @@ export default function ReflectionModal({
                   onTakePhoto={(dataUri) => {
                     handleTakePhoto(dataUri);
                   }}
+                  idealFacingMode = {FACING_MODES.ENVIRONMENT}
                 />
               </div>
             </div>
