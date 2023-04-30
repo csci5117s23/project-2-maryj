@@ -36,28 +36,6 @@ export default function CardContainer({ filter }: CardContainerProps) {
         getGeo();
     }, []);
 
-    // // Delete all restaurants lol
-    // useEffect(()=>{
-    //     async function clearDatabase(){
-    //         let queryString = backend_base + "/clear";
-    //         const token = await getToken({ template: 'codehooks' });
-    //         // console.log(queryString)
-    //         const response = await fetch(queryString, {
-    //             method: "DELETE",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": "Bearer " + token
-    //             },
-    //             body : JSON.stringify({
-    //                 userId: userId,
-    //             }),
-    //         });
-    //         const data = await response.json();
-    //         // console.log(data);
-    //     }
-    //     clearDatabase();
-    // }, [userId]);
-    
     useEffect(() => {
         if (!lat || !lon || !userId || !filter) return;
 
@@ -65,7 +43,7 @@ export default function CardContainer({ filter }: CardContainerProps) {
             const token = await getToken({ template: 'codehooks' });
             let response = null;
 
-            if (filter === "Starred") {
+            if (filter === "Saved") {
                 response = await fetch(backend_base + "/get-restaurants", {
                     method: "POST",
                     headers: {
