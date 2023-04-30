@@ -7,7 +7,6 @@ import Menu from '@/components/Menu';
 import ImageCustom from '@/components/Image';
 import Input from '@/components/Input';
 
-
 interface RestoProps {
     id: number;
 }
@@ -21,7 +20,7 @@ interface RestaurantInfo {
 
 export default function Resto() {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
-    const [restaurant, setRestaurant]: [any, Function] = useState(undefined);
+    const [restaurant, setRestaurant]: [any, Function] = useState(null);
     const router = useRouter();
 
     console.log(userId);
@@ -64,24 +63,16 @@ export default function Resto() {
         getRestaurant();
     }, [isLoaded, router, getToken, userId]);
 
-    // TODO: FETCH RELEVANT DATA FROM ID, USERID HERE
-    //       delete this once this is done
-    const dummyRestaurant: RestaurantInfo = {
-        name: "Raising Cane's",
-        image: "https://i.imgur.com/tB3WB6m.jpeg",
-        starred: true,
-    }
-
     return (
         <>
             <Header />
             <div className={styles.container}>
-                <div className={styles.title}>{dummyRestaurant.name}</div>
+                <div className={styles.title}>{restaurant ? restaurant.name : "Loading..."}</div>
                 <div className={styles.image}>
                     <ImageCustom
-                        url={dummyRestaurant.image}
-                        isStarred={dummyRestaurant.starred}
-                        title={dummyRestaurant.image}
+                        url={restaurant?.imageId}
+                        isStarred={restaurant?.starred}
+                        title={restaurant?.name}
                         isResto={true}
                         update={() => {}}
                     />
