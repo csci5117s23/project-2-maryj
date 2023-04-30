@@ -22,7 +22,8 @@ export default function MenuItem({
   const { userId, getToken } = useAuth();
 
   const handleStar = () => {
-    setIsLiked(!isLiked);
+    const liked = !isLiked;
+    setIsLiked(liked);
 
     const updateLiked = async () => {
       const token = await getToken({ template: "codehooks" });
@@ -36,7 +37,7 @@ export default function MenuItem({
           },
           body: JSON.stringify({
             name: title,
-            liked: isLiked,
+            liked: liked,
             userId: userId,
           }),
         }

@@ -178,10 +178,10 @@ app.post('/update-item/:restaurantId', async (req, res) => {
     }
 
     const item = restaurant.itemsTried.find((item) => item.name === req.body.name);
-    if (req.body.reflection) {
+    if (req.body.reflection != undefined) {
         item.reflection = req.body.reflection;
     }
-    if (req.body.liked) {
+    if (req.body.liked != undefined) {
         item.liked = req.body.liked;
     }
     
