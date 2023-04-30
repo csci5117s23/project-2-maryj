@@ -3,9 +3,7 @@ import { SignIn } from "@clerk/clerk-react";
 import { useEffect, useState } from "react"
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
-
-
-
+import Image from 'next/image';
 
 
 export default function Splash() {
@@ -33,7 +31,7 @@ export default function Splash() {
 
     return (
         <header className={style.appHeader}>
-            <p> add logo here</p>
+            <Image src="/jenkinsGuySquare.png" alt={''} width={250} height={250}/>
             <h1>a<span className={style.nameStyle} >Resto</span>Trac</h1>
             {showSignin && <SignIn/>}
             {showSignin ? 
