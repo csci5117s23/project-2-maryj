@@ -33,12 +33,18 @@ export default function ImageCustom({ url, isStarred, title, isResto = false, up
         <MdStar
           className={styles['image-star']}
           size="25px"
-          onClick={e => update()}
+          onClick={e => {
+            e.stopPropagation();
+            update();
+          }}
         /> :
         <MdStarBorder
           className={styles['image-star']}
           size="25px"
-          onClick={e => update()}
+          onClick={e => {
+            e.stopPropagation();
+            update();
+          }}
         />
       }
     </div>

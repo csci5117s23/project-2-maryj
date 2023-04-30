@@ -2,6 +2,7 @@
 import styles from '@/styles/Card.module.css';
 import { useAuth } from '@clerk/nextjs';
 import { useState } from 'react';
+import { useRouter } from "next/router";
 import ImageCustom from './Image';
 
 interface CardProps {
@@ -17,6 +18,7 @@ const backend_base = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 export default function Card({ id, title, address, image, isStarred }: CardProps) {
     const [starState, setStarState]: [boolean, Function] = useState(isStarred);
     const { userId, getToken } = useAuth();
+    const router = useRouter();
 
     async function update() {
         const token = await getToken({ template: 'codehooks' });
@@ -38,8 +40,14 @@ export default function Card({ id, title, address, image, isStarred }: CardProps
         setStarState(!starState);
     }
 
+    function handleRoute() {
+        router.push({
+            pathname: `/resto/${id}}`
+        });
+    }
+
     return (
-        <div className={styles.card}>
+        <div className={styles.card} onClick={handleRoute}>
             <div className={styles['image-container']}>
                 <ImageCustom 
                     url={image}
