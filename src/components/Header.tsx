@@ -15,7 +15,7 @@ export default function Header() {
   const links = [
     { href: '/home', text: 'Home',  icon: <MdHomeFilled />},
     { href: '/likes', text: 'Likes',  icon: <MdFavorite />},
-    { href: '/starred', text: 'Starred',  icon: <MdStar />},
+    { href: '/saved', text: 'Saved',  icon: <MdStar />},
   ]
 
   return (
