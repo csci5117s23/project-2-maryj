@@ -53,7 +53,7 @@ export default function MenuItem({
     <div className={styles.container}>
       <h3>{title}</h3>
       <div className={styles.options}>
-        {liked ? (
+        {isLiked ? (
           <MdStar className={styles.star} onClick={handleStar} size="25px" />
         ) : (
           <MdStarBorder
