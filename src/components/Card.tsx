@@ -42,7 +42,7 @@ export default function Card({ id, title, address, image, isStarred }: CardProps
 
     function handleRoute() {
         router.push({
-            pathname: `/resto/${id}}`
+            pathname: `/resto/${id}`
         });
     }
 

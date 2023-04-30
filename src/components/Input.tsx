@@ -17,7 +17,10 @@ export default function Input({ placeId, placeholder, id, name, addMenuItem }: I
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    addMenuItem(inputValue);
+    const value = inputValue;
+    setInputValue("");
+    addMenuItem(value);
+
 
     const token = await getToken({ template: "codehooks" });
     const response = await fetch(
@@ -30,7 +33,7 @@ export default function Input({ placeId, placeholder, id, name, addMenuItem }: I
         },
         body: JSON.stringify({
           userId: userId,
-          name: inputValue
+          name: value
         }),
       }
     );

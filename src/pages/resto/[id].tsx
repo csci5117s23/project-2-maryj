@@ -93,6 +93,7 @@ export default function Resto() {
                     name={"add-item"}
                     addMenuItem={(item: string) => {
                         const restaurantCopy = { ...restaurant };
+                        if (!restaurantCopy.itemsTried) restaurantCopy.itemsTried = [];
                         restaurantCopy.itemsTried.push({
                             name: item,
                             liked: false,
