@@ -22,7 +22,7 @@ export default function ImageCustom({ url, isStarred, title, isResto = false, up
       <Image
         className={styles[isResto ? 'image-resto' : 'image']}
         src={photo_url}
-        alt={`image of ${title}`}
+        alt={`Loading...`}
         fill
         sizes="(max-width: 768px) 100vw,
                (max-width: 1200px) 50vw,
