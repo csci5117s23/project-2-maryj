@@ -44,6 +44,7 @@ export default function Resto() {
                 headers: {
                     "Authorization": "Bearer " + token,
                     "Content-Type": "application/json",
+                    
                 },
                 body: JSON.stringify({
                     placeId: placeId,
@@ -94,7 +95,7 @@ export default function Resto() {
                     <ImageCustom
                         url={restaurant?.imageId}
                         isStarred={restaurant?.starred}
-                        isLiked={restaurant?.liked}
+                        isLiked={liked}
                         isResto={true}
                         update={updateLiked}
                     />
