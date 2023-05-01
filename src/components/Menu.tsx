@@ -1,5 +1,5 @@
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { useState, useEffect, MutableRefObject } from "react";
+import { useState, useEffect } from "react";
 import ReflectionModal from "./ReflectionModal";
 import styles from '@/styles/Menu.module.css';
 import MenuItem from "./MenuItem";
@@ -14,34 +14,6 @@ interface MenuItem {
     liked: boolean;
     reflection: string;
 }
-
-const dummyMenuItems: MenuItem[] = [
-    {
-        name: 'Spaghetti Carbonara',
-        liked: true,
-        reflection: ""
-    },
-    {
-        name: 'Chicken Alfredo',
-        liked: false,
-        reflection: ""
-    },
-    {
-        name: 'Margherita Pizza',
-        liked: true,
-        reflection: ""
-    },
-    {
-        name: 'Caesar Salad',
-        liked: false,
-        reflection: ""
-    },
-    {
-        name: 'Grilled Salmon',
-        liked: true,
-        reflection: ""
-    }
-];
 
 export default function Menu({ restaurant }: MenuProps) {
     const [viewMenuItems, setViewMenuItems]: [boolean, Function] = useState<boolean>(true);

@@ -11,7 +11,7 @@ interface InputProps {
 }
 
 export default function Input({ placeId, placeholder, id, name, addMenuItem }: InputProps) {
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { userId, getToken } = useAuth();
   const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -72,7 +72,7 @@ app.post("/update-restaurant", async (req, res) => {
 
 app.post("/get-restaurants", async (req, res) => {
     const conn = await Datastore.open();
-    if (req.body.filter === "Starred") {
+    if (req.body.filter === "Saved") {
         const cursor = conn.getMany('restaurant', {filter: {userId: req.body.userId, starred: true}});
         const restaurants = [];
         await cursor.forEach((item) => {
@@ -254,13 +254,6 @@ app.post("/google", async (req, res) => {
     
     // res.json(restaurantsAdded);
     res.json(restaurantsAdded);
-});
-
-// Delete all restaurants from the database (use carefully)
-app.delete("/clear", async (req, res) => {
-    const conn = await Datastore.open();
-    const data = await conn.removeMany('restaurant', {filter: {userId: req.body.userId}});
-    res.json(data);
 });
 
 // Use Crudlify to create a REST API for any collection
