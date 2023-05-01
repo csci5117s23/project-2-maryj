@@ -28,9 +28,18 @@
   border-radius: 1rem;
 }
 
-.image-star {
+.image-star, .image-heart {
   position: absolute;
   color: var(--curd);
   top: 10px;
   right: 10px;
 }
+
+.image-star {
+  color: var(--curd);
+}
+
+.image-heart {
+  color: var(--salmon);
+}
+

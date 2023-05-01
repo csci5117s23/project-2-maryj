@@ -7,8 +7,8 @@ import ImageCustom from './Image';
 
 interface CardProps {
     id: number;
-    title: string;
     address: string;
+    title: string,
     image: string;
     isStarred: boolean;
 }
@@ -52,7 +52,6 @@ export default function Card({ id, title, address, image, isStarred }: CardProps
                 <ImageCustom 
                     url={image}
                     isStarred={starState}
-                    title={title}
                     isResto={false} 
                     update={update}               
                 />

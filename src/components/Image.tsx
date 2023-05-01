@@ -1,17 +1,17 @@
 import styles from '@/styles/Image.module.css';
 import Image, { ImageProps } from "next/image";
-import { MdStar, MdStarBorder } from "react-icons/md";
+import { MdStar, MdStarBorder, MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { useState } from 'react';
 
 interface ImgProps {
   url : string,
   isStarred : boolean,
-  title : string,
+  isLiked? : boolean,
   isResto : boolean,
   update: Function
 }
 
-export default function ImageCustom({ url, isStarred, title, isResto = false, update } : ImgProps) {
+export default function ImageCustom({ url, isStarred, isLiked, isResto = false, update } : ImgProps) {
   let photo_url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
   photo_url += url;
   photo_url += "&key=";
@@ -29,23 +29,50 @@ export default function ImageCustom({ url, isStarred, title, isResto = false, up
                33vw"
         priority
       />
-      {isStarred ?
-        <MdStar
-          className={styles['image-star']}
-          size="25px"
-          onClick={e => {
-            e.stopPropagation();
-            update();
-          }}
-        /> :
-        <MdStarBorder
-          className={styles['image-star']}
-          size="25px"
-          onClick={e => {
-            e.stopPropagation();
-            update();
-          }}
-        />
+      {
+        isResto ? (
+          // is a restaurant
+          isLiked ? (
+            <MdFavorite
+              className={styles['image-heart']}
+              size="25px"
+              onClick={(e) => {
+                e.stopPropagation();
+                update();
+              }}
+            />
+          ) : (
+            <MdFavoriteBorder
+              className={styles['image-heart']}
+              size="25px"
+              onClick={(e) => {
+                e.stopPropagation();
+                update();
+              }}
+            />
+          )
+        ) : (
+          // is not a restaurant
+          isStarred ? (
+            <MdStar
+              className={styles['image-star']}
+              size="25px"
+              onClick={(e) => {
+                e.stopPropagation();
+                update();
+              }}
+            />
+          ) : (
+            <MdStarBorder
+              className={styles['image-star']}
+              size="25px"
+              onClick={(e) => {
+                e.stopPropagation();
+                update();
+              }}
+            />
+          )
+        )
       }
     </div>
   )

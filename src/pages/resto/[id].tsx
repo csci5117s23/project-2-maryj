@@ -21,6 +21,8 @@ interface RestaurantInfo {
 export default function Resto() {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
     const [restaurant, setRestaurant]: [any, Function] = useState(null);
+    const [liked, setLiked] : [any, Function] = useState(null);
+
     
     const router = useRouter();
 
@@ -57,10 +59,31 @@ export default function Resto() {
             
             const data = await response.json();
             setRestaurant(data);
+            if (liked == null) {
+                setLiked(data.liked);
+            }
         }
-
         getRestaurant();
     }, [isLoaded, router, getToken, userId]);
+
+    async function updateLiked() {
+        const token = await getToken({ template: 'codehooks' });
+
+        await fetch(process.env.NEXT_PUBLIC_BACKEND_BASE_URL + '/update-restaurant', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token,
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                placeId: restaurant.placeId,
+                userId: userId,
+                liked: !liked
+            })
+        });
+        setLiked(!liked);
+    }
 
     return (
         <>
@@ -71,9 +94,9 @@ export default function Resto() {
                     <ImageCustom
                         url={restaurant?.imageId}
                         isStarred={restaurant?.starred}
-                        title={restaurant?.name}
+                        isLiked={restaurant?.liked}
                         isResto={true}
-                        update={() => {}}
+                        update={updateLiked}
                     />
                 </div>
                 <Input
