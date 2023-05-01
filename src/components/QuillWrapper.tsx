@@ -1,6 +1,3 @@
-// Using vanilla javascript (not typescript) for compatability with react-quill
-// Conversion to typescript is technically possibly, not worth the dev time at this point
-
 import React, { useMemo, useRef, forwardRef } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
@@ -10,9 +7,9 @@ const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
 
-    const WrappedReactQuill = forwardRef((props, forwardedRef) => {
+    const WrappedReactQuill = forwardRef((props) => {
       const quillRef = useRef(null);
-      const { isLoaded, userId, sessionId, getToken } = useAuth();
+      const { getToken } = useAuth();
 
       // Custom image upload handler
       function imgHandler() {
@@ -42,7 +39,6 @@ const ReactQuill = dynamic(
             reader.onload = async () => {
               const base64Image = reader.result.split(",")[1];
 
-              console.log("Trying upload");
               const token = await getToken({ template: "codehooks" });
               fetch("https://backend-qsum.api.codehooks.io/dev/upload-image", {
                 method: "POST",
@@ -53,12 +49,10 @@ const ReactQuill = dynamic(
                 body: JSON.stringify({ image: base64Image }),
               })
                 .then((response) => {
-                  console.log("response", response);
                   return response.json();
                 })
                 .then((data) => {
                   const { url } = data; // Assuming the API returns the URL of the uploaded image
-                  console.log("url", url);
                   quill.insertEmbed(range.index, "image", url, "user");
                 })
                 .catch((error) => {
