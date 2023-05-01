@@ -83,11 +83,32 @@ Which (if any) progressive web app feature(s) does your app support?
 
 ## Screenshots of Site (complete)
 
-**[Add a screenshot of each key page](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository)
-along with a very brief caption:**
+### Splash
 
-![](https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif)
+<img src="/screenshots/splash.png" width=20%>
 
+**Description:** The landing page where the user logs in.
+
+
+### Home
+
+<img src="/screenshots/trac.png" width=20%>
+
+**Description:** The home "Trac" page where users can find new restaurants and view their liked/saved restaurants.
+
+
+### Restaurant
+
+<img src="/screenshots/resto.png" width=20%>
+
+**Description:** The restaurant "Resto" page where users can add and view menu items to that restaurant.
+
+
+### Reflection Modal
+
+<img src="/screenshots/reflection.png" width=20%>
+
+**Description:** A modal for editing the reflections of the different menu items on the Resto page.
 
 
 ## External Dependencies
