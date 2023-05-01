@@ -1,7 +1,5 @@
-import Splash from './splash';
+import Splash from "./splash";
 
 export default function Home() {
-  return (
-    <Splash />
-  );
+  return <Splash />;
 }

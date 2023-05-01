@@ -1,18 +1,15 @@
-// Using vanilla javascript (not typescript) for compatability with react-quill
-// Conversion to typescript is technically possibly, not worth the dev time at this point
-
 import React, { useMemo, useRef, forwardRef } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from "@clerk/nextjs";
 
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import("react-quill");
 
-    const WrappedReactQuill = forwardRef((props, forwardedRef) => {
+    const WrappedReactQuill = forwardRef((props) => {
       const quillRef = useRef(null);
-      const { isLoaded, userId, sessionId, getToken } = useAuth();
+      const { getToken } = useAuth();
 
       // Custom image upload handler
       function imgHandler() {
@@ -29,7 +26,7 @@ const ReactQuill = dynamic(
           );
 
           fileInput.addEventListener("change", () => {
-            const files = fileInput.files;
+            const { files } = fileInput;
             const range = quill.getSelection(true);
 
             if (!files || !files.length) {
@@ -42,23 +39,20 @@ const ReactQuill = dynamic(
             reader.onload = async () => {
               const base64Image = reader.result.split(",")[1];
 
-              console.log("Trying upload");
               const token = await getToken({ template: "codehooks" });
               fetch("https://backend-qsum.api.codehooks.io/dev/upload-image", {
                 method: "POST",
                 headers: {
-                  "Authorization": "Bearer " + token,
+                  Authorization: `Bearer ${token}`,
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ image: base64Image }),
               })
                 .then((response) => {
-                  console.log("response", response);
                   return response.json();
                 })
                 .then((data) => {
-                  const url = data.url; // Assuming the API returns the URL of the uploaded image
-                  console.log("url", url);
+                  const { url } = data; // Assuming the API returns the URL of the uploaded image
                   quill.insertEmbed(range.index, "image", url, "user");
                 })
                 .catch((error) => {
@@ -70,7 +64,6 @@ const ReactQuill = dynamic(
         }
         fileInput.click();
       }
-
 
       const modules = useMemo(
         () => ({
@@ -118,13 +111,7 @@ const ReactQuill = dynamic(
 );
 
 function QuillWrapper({ value, onChange, ...props }) {
-  return (
-    <ReactQuill
-      value={value}
-      onChange={onChange}
-      {...props}
-    />
-  );
+  return <ReactQuill value={value} onChange={onChange} {...props} />;
 }
 
 export default QuillWrapper;

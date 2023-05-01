@@ -1,6 +1,6 @@
-import styles from "@/styles/Input.module.css";
 import { useAuth } from "@clerk/nextjs";
 import { useState } from "react";
+import styles from "@/styles/Input.module.css";
 
 interface InputProps {
   placeId: string;
@@ -10,7 +10,13 @@ interface InputProps {
   addMenuItem: Function;
 }
 
-export default function Input({ placeId, placeholder, id, name, addMenuItem }: InputProps) {
+export default function Input({
+  placeId,
+  placeholder,
+  id,
+  name,
+  addMenuItem,
+}: InputProps) {
   const { userId, getToken } = useAuth();
   const [inputValue, setInputValue] = useState("");
 
@@ -21,19 +27,18 @@ export default function Input({ placeId, placeholder, id, name, addMenuItem }: I
     setInputValue("");
     addMenuItem(value);
 
-
     const token = await getToken({ template: "codehooks" });
     const response = await fetch(
       `https://backend-qsum.api.codehooks.io/dev/add-item/${placeId}`,
       {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: userId,
-          name: value
+          userId,
+          name: value,
         }),
       }
     );
@@ -54,7 +59,7 @@ export default function Input({ placeId, placeholder, id, name, addMenuItem }: I
       <input
         className={styles.input}
         placeholder={placeholder}
-        type="text"
+        type={"text"}
         id={id}
         name={name}
         value={inputValue}
