@@ -1,6 +1,6 @@
 .funFactModal{
     max-height: fit-content;
-    margin: 10%;
+    margin: 20%;
     color: #FAFCFA;
     border-radius: 21px;
     background-color: #EA7153;
@@ -22,6 +22,9 @@
 }
 
 @media only screen and (min-width: 750px) {
+    .funFactModal{
+        margin: 10%;
+    }
     .funFactText {
         font-size: 23px;
         padding: 3%;
