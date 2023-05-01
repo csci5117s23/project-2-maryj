@@ -41,11 +41,7 @@ export default function MenuItem({
             userId: userId,
           }),
         }
-      ).then((res) => {
-        res.json().then((data) => {
-          console.log(data);
-        });
-      });
+      );
     };
     updateLiked();
   };

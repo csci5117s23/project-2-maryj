@@ -69,10 +69,6 @@ export default function ReflectionModal({
         reflection: value,
         userId: userId,
       }),
-    }).then((res) => {
-      res.json().then((data) => {
-        console.log(data);
-      });
     });
   }
 
