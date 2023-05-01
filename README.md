@@ -21,17 +21,19 @@ CSCI 5117, Spring 2022, [assignment description](https://canvas.umn.edu/courses/
 **Describe the most challenging features you implemented
 (one sentence per bullet, maximum 4 bullets):**
 
-* ...
+* Camera integrations were quite annoying.
+* Originally, integrations with a menu providing API such as OpenMenu, Yelp, or Uber was planned and eventually cut due to lack of feasibility.
+* Quill integrations in Next required dynamic rendering of some components motivating usage of more advanced Next features
+* Getting Codehooks to write buffers to the stream for displaying photos used unexpected syntax different from Express
 
 Which (if any) device integration(s) does your app support?
 
-* ...
+* Camera Integration
+* Geolocation
 
 Which (if any) progressive web app feature(s) does your app support?
 
-* ...
-
-
+* No major PWA features
 
 ## Mockup images
 
@@ -75,7 +77,7 @@ Which (if any) progressive web app feature(s) does your app support?
 
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
-* ...
+* Nothing comes to mind
 
 
 
@@ -94,7 +96,11 @@ along with a very brief caption:**
 Please do not document required libraries (e.g., Vue, Vuefire, Firebase).**
 
 * Library or service name: description of use
-* ...
+* react-html5-camera-photo
+* react-icons
+* react-modal
+* react-quill
+* typescript
 
 **If there's anything else you would like to disclose about how your project
 relied on external code, expertise, or anything else, please disclose that
