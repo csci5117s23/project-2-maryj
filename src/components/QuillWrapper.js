@@ -4,7 +4,7 @@
 import React, { useMemo, useRef, forwardRef } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from "@clerk/nextjs";
 
 const ReactQuill = dynamic(
   async () => {
@@ -29,7 +29,7 @@ const ReactQuill = dynamic(
           );
 
           fileInput.addEventListener("change", () => {
-            const files = fileInput.files;
+            const { files } = fileInput;
             const range = quill.getSelection(true);
 
             if (!files || !files.length) {
@@ -47,7 +47,7 @@ const ReactQuill = dynamic(
               fetch("https://backend-qsum.api.codehooks.io/dev/upload-image", {
                 method: "POST",
                 headers: {
-                  "Authorization": "Bearer " + token,
+                  Authorization: `Bearer ${token}`,
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ image: base64Image }),
@@ -57,7 +57,7 @@ const ReactQuill = dynamic(
                   return response.json();
                 })
                 .then((data) => {
-                  const url = data.url; // Assuming the API returns the URL of the uploaded image
+                  const { url } = data; // Assuming the API returns the URL of the uploaded image
                   console.log("url", url);
                   quill.insertEmbed(range.index, "image", url, "user");
                 })
@@ -70,7 +70,6 @@ const ReactQuill = dynamic(
         }
         fileInput.click();
       }
-
 
       const modules = useMemo(
         () => ({
@@ -118,13 +117,7 @@ const ReactQuill = dynamic(
 );
 
 function QuillWrapper({ value, onChange, ...props }) {
-  return (
-    <ReactQuill
-      value={value}
-      onChange={onChange}
-      {...props}
-    />
-  );
+  return <ReactQuill value={value} onChange={onChange} {...props} />;
 }
 
 export default QuillWrapper;

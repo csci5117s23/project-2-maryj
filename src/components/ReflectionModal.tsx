@@ -43,15 +43,15 @@ export default function ReflectionModal({
       {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ image: base64Image }),
       }
     );
     const data = await response.json();
-    const url = data.url;
-    setValue(value + `<img src="${url}"/>`);
+    const { url } = data;
+    setValue(`${value}<img src="${url}"/>`);
 
     setCameraStatus(!cameraStatus);
   }
@@ -61,13 +61,13 @@ export default function ReflectionModal({
     fetch(`https://backend-qsum.api.codehooks.io/dev/update-item/${placeId}`, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: itemName,
         reflection: value,
-        userId: userId,
+        userId,
       }),
     });
   }
@@ -84,7 +84,7 @@ export default function ReflectionModal({
               <h3>Reflection</h3>
               <MdClose
                 className={styles.close}
-                size="25px"
+                size={"25px"}
                 onClick={(e) => setIsVisible(!isVisible)}
               />
             </div>
@@ -95,11 +95,11 @@ export default function ReflectionModal({
                 onClick={(e) => setCameraStatus(!cameraStatus)}
               >
                 Camera
-                <MdCameraAlt size="18px" />
+                <MdCameraAlt size={"18px"} />
               </button>
               <button className={styles.save} onClick={handleSave}>
                 Save
-                <MdEditNote size="18px" />
+                <MdEditNote size={"18px"} />
               </button>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function ReflectionModal({
                   onTakePhoto={(dataUri) => {
                     handleTakePhoto(dataUri);
                   }}
-                  idealFacingMode = {FACING_MODES.ENVIRONMENT}
+                  idealFacingMode={FACING_MODES.ENVIRONMENT}
                 />
               </div>
             </div>

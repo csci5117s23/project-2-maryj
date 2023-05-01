@@ -1,7 +1,7 @@
 import { MdEdit, MdStar, MdStarBorder } from "react-icons/md";
 import { useState } from "react";
-import styles from "@/styles/MenuItem.module.css";
 import { useAuth } from "@clerk/nextjs";
+import styles from "@/styles/MenuItem.module.css";
 
 interface MenuItemProps {
   placeId: string;
@@ -16,7 +16,7 @@ export default function MenuItem({
   title,
   liked,
   reflection,
-  setModal
+  setModal,
 }: MenuItemProps) {
   const [isLiked, setIsLiked]: [boolean, Function] = useState<boolean>(liked);
   const { userId, getToken } = useAuth();
@@ -32,13 +32,13 @@ export default function MenuItem({
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             name: title,
-            liked: liked,
-            userId: userId,
+            liked,
+            userId,
           }),
         }
       );
@@ -51,17 +51,17 @@ export default function MenuItem({
       <h3>{title}</h3>
       <div className={styles.options}>
         {isLiked ? (
-          <MdStar className={styles.star} onClick={handleStar} size="25px" />
+          <MdStar className={styles.star} onClick={handleStar} size={"25px"} />
         ) : (
           <MdStarBorder
             className={styles.star}
             onClick={handleStar}
-            size="25px"
+            size={"25px"}
           />
         )}
         <MdEdit
           className={styles.icon}
-          size="25px"
+          size={"25px"}
           onClick={() => setModal(placeId, title, reflection)}
         />
       </div>

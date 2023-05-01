@@ -1,13 +1,13 @@
-import CardContainer from '@/components/CardContainer'
-import Header from '@/components/Header';
-import { useAuth } from '@clerk/nextjs';
-import SignInPage from './signin';
-import { useEffect, useState } from 'react';
+import { useAuth } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import CardContainer from "@/components/CardContainer";
+import Header from "@/components/Header";
+import SignInPage from "./signin";
 
 export default function Trac() {
   const { userId } = useAuth();
-  const [filter, setFilter] = useState<string>('Home');
+  const [filter, setFilter] = useState<string>("Home");
   const router = useRouter();
 
   useEffect(() => {
@@ -17,13 +17,13 @@ export default function Trac() {
   }, [filter, router]);
 
   if (!userId) {
-    return <SignInPage />
+    return <SignInPage />;
   }
 
   return (
     <>
-      <Header/>
-      <CardContainer filter={filter}/>
+      <Header />
+      <CardContainer filter={filter} />
     </>
-  )
+  );
 }
